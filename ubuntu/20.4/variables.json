@@ -1,0 +1,11 @@
+{
+    "vcenter_server":"vc.mvdp.eu",
+    "username":"",
+    "password":"",
+    "datastore":"SSD",
+    "folder": "templates",
+    "cluster": "CLS1",
+    "network": "VM Network",
+    "ssh_username": "",
+    "ssh_password": ""
+}
