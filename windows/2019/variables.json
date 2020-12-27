@@ -1,0 +1,16 @@
+{  
+  "vcenter_server":"",
+  "vcenter_username":"administrator@vsphere.local",
+  "vcenter_password":"",
+  "vcenter_datacenter": "",
+  "vcenter_datastore": "",
+  "vcenter_cluster": "CLS1",
+  "vcenter_folder": "templates",
+  "vcenter_network": "VM Network",
+  "vm-name": "Win2019-Template-STD",
+  "vm-cpu-num": "2",
+  "vm-mem-size": "4096",
+  "vm-disk-size": "40960",
+  "winadmin-password": "",
+  "os_iso_path": "[SSD] ISO/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
+}
