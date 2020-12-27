@@ -1,4 +1,5 @@
 # vmware-templates
+requiered for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
 
 usage
 packer build --var-file c:\Users\user\variables_win2019.json win2019.standard.json
