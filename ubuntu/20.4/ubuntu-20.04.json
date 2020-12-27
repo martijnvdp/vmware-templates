@@ -30,7 +30,7 @@
       "http_directory": "{{user `http_directory`}}",
       "insecure_connection": "true",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
-      "iso_paths": "{{user `iso_paths`}}",
+      "iso_url": "{{user `iso_urls`}}",
       "name": "Ubuntu-20.04",
       "network_adapters": [
         {
