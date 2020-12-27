@@ -41,11 +41,9 @@
           }
         ],
   
-        "iso_paths": [
-          "{{user `os_iso_path`}}",
-          "[] /vmimages/tools-isoimages/windows.iso"
-        ],
-  
+        "iso_url": "{{user `iso_url`}}",
+        "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+        "iso_paths": ["[] /vmimages/tools-isoimages/windows.iso"],
         "floppy_files": [
             "autounattend.xml",
             "../scripts/disable-network-discovery.cmd",

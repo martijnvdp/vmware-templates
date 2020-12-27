@@ -13,6 +13,7 @@
   "iso_urls": "https://releases.ubuntu.com/focal/ubuntu-20.04.1-live-server-amd64.iso",
   "iso_checksum_type": "sha256",
   "iso_checksum": "443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
+  "iso_paths": "[SSD] /packer_cache/e30b34e4d3c536763868a42bb9d5b8f14af297b8.iso",
   "ssh_username": "ubuntu",
   "ssh_password": "ubuntu",
   "packer_ip_for_http_server": "",
