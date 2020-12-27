@@ -21,7 +21,7 @@ packer will start a local webserver this must be accessible by the vm
 
 ### Prerequisites
 
-Requiered for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
+Required for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
 for the automated installing of windows updates
 
 
