@@ -1,6 +1,6 @@
-# Project Title
+# Vmware templates with packer
 
-One Paragraph of project description goes here
+Template automation using packer
 
 ## Getting Started
 
