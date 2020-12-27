@@ -4,12 +4,12 @@ Template automation using packer
 
 ## Getting Started
 
-windows 2019 template:
+windows 2019 template:\
 packer build --var-file c:\Users\user\variables_win2019.json win2019.standard.json
 
 ### variable files
 
-To get the checksum value of windows iso's:
+To get the checksum value of windows iso's:\
 use powershell get-filehash
 
 To use windows filepath for the iso location use smb://
