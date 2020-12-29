@@ -23,7 +23,7 @@
       "CPUs": "{{user `vm-cpu-num`}}",
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
-      "firmware": "efi",
+      "firmware": "efi-secure",
       "cdrom_type": "sata",
       "disk_controller_type": "lsilogic-sas",
       "network_adapters": [
