@@ -11,7 +11,7 @@
             <UserLocale>en-US</UserLocale>
         </component>
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <DiskConfiguration>
+       <DiskConfiguration>
                 <Disk wcm:action="add">
                     <CreatePartitions>
                         <CreatePartition wcm:action="add">
@@ -64,14 +64,20 @@
                     <WillWipeDisk>true</WillWipeDisk>
                     <DiskID>0</DiskID>
                 </Disk>
-            <WillShowUI>OnError</WillShowUI>
-            </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
+                    <InstallFrom>
+                        <MetaData wcm:action="add">
+                            <Key>/IMAGE/NAME</Key>
+                            <Value>Windows Server 2019 SERVERSTANDARD</Value>
+                        </MetaData>
+                    </InstallFrom>
                     <InstallTo>
                         <DiskID>0</DiskID>
                         <PartitionID>4</PartitionID>
                     </InstallTo>
+                    <WillShowUI>OnError</WillShowUI>
+                    <InstallToAvailablePartition>false</InstallToAvailablePartition>
                 </OSImage>
             </ImageInstall>
             <UserData>
