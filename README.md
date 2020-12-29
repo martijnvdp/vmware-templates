@@ -12,7 +12,7 @@ packer build --var-file c:\Users\user\variables_win2019.json win2019.standard.js
 
 ## EFI
 For efi secure boot you need to press a key manually or use a custom iso as descibed here:
-https://taylor.dev/removing-press-any-key-prompts-for-windows-install-automation/  \
+https://taylor.dev/removing-press-any-key-prompts-for-windows-install-automation/  
 
 ### variable files
 
