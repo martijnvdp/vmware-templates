@@ -64,6 +64,8 @@
                     <WillWipeDisk>true</WillWipeDisk>
                     <DiskID>0</DiskID>
                 </Disk>
+                <WillShowUI>OnError</WillShowUI>
+            </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
                     <InstallFrom>
