@@ -24,6 +24,11 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
+      "boot_wait": "70s",
+      "boot_command": [
+        "<tab><wait><enter><wait>",
+        "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
+      ],
       "cdrom_type": "sata",
       "disk_controller_type": "lsilogic-sas",
       "network_adapters": [
