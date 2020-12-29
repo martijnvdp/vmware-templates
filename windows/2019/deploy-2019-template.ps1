@@ -5,6 +5,6 @@
 ###
 $credentials = get-credential
 $var_file = ".\variables.json"
-$build_file = "win2019.standard"
+$build_file = ".\win2019.standard"
 $winadmin_password = Read-Host 'enter local admin password'
 packer build --var-file $var_file -var "vcenter_username=$($Credentials.username)"  -var "vcenter_password=$($Credentials.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $build_file
