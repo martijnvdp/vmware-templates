@@ -36,12 +36,14 @@ function deploy-template {
         [Parameter(mandatory = $true)]$Template_var_file,
         [Parameter(mandatory = $true)]$template_edition,
         [Parameter(mandatory = $true)]$template_unattended,
-        [Parameter(mandatory = $true)]$template_path_packer
+        [Parameter(mandatory = $true)]$template_path_packer,
+        [pscredential]$credential,
+        [string]$winadmin_password
     )
   
     if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
-    $credentials = get-credential
-    $winadmin_password = Read-Host 'Enter local admin password'
+    if (!$credential) { $credential = get-credential }
+    if (!$winadmin_password) { $winadmin_password = Read-Host 'Enter local admin password' }
     Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition
     packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credentials.username)"  -var "vcenter_password=$($Credentials.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
     Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition
