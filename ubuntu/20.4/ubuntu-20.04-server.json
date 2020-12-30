@@ -8,8 +8,6 @@
       "boot_wait": "140s",
       "boot_command": [
         "<tab><wait><enter><wait>",
-        "autoinstall ",
-        "<enter>",
         "yes",
         "<enter>"
       ],
