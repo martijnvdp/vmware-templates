@@ -1,0 +1,72 @@
+{
+  "builders": [
+    {
+      "CPUs": "{{user `vm-cpu-num`}}",
+      "RAM": "{{user `vm-mem-size`}}",
+      "RAM_reserve_all": true,
+      "firmware": "bios",
+      "boot_command": [
+        "<esc><esc><esc>",
+        "<enter><wait>",
+        "/casper/vmlinuz ",
+        "root=/dev/sr0 ",
+        "initrd=/casper/initrd ",
+        "autoinstall ",
+        "ds=nocloud-net;s=/cidata/",
+        "<enter>"
+      ],
+      "cd_files": [
+        "{{template_dir}}/http/meta-data",
+        "{{template_dir}}/http/user-data"
+      ],
+      "cd_label": "cidata",
+      "http_ip": "{{user `packer_ip_for_http_server`}}",
+      "http_port_min": "{{user `packer_ip_port_for_http_server`}}",
+      "http_port_max": "{{user `packer_ip_port_for_http_server`}}",
+      "boot_wait": "2s",
+      "convert_to_template": "true",
+      "create_snapshot": "false",
+      "datacenter": "{{user `vcenter_datacenter`}}",
+      "datastore": "{{user `vcenter_datastore`}}",
+      "disk_controller_type": "pvscsi",
+      "folder": "{{user `vcenter_folder`}}",
+      "guest_os_type": "ubuntu64Guest",
+      "cluster": "{{user `vcenter_cluster`}}",
+      "http_directory": "{{user `http_directory`}}",
+      "insecure_connection": "true",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{user `iso_urls`}}",
+      "name": "Ubuntu-20.04",
+      "network_adapters": [
+        {
+          "network": "{{user `vcenter_network`}}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "notes": "Default SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
+      "password": "{{user `vcenter_password`}}",
+      "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
+      "ssh_password": "{{user `ssh_password`}}",
+      "ssh_timeout": "20m",
+      "ssh_handshake_attempts": "100000",
+      "ssh_username": "{{user `ssh_username`}}",
+      "storage": [
+        {
+          "disk_size": "{{user `vm-disk-size`}}",
+          "disk_thin_provisioned": true
+        }
+      ],
+      "type": "vsphere-iso",
+      "username": "{{user `vcenter_username`}}",
+      "vcenter_server": "{{user `vcenter_server`}}",
+      "vm_name": "{{user `vm_name`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "{{template_dir}}/../scripts/setup_ubuntu2004.sh"
+    }
+  ]
+}

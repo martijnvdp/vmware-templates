@@ -40,12 +40,13 @@ function Update-UnattendXml {
         $_.Exception.Message
     }
 }
-function deploy-template {
+function publish-template {
     param(
+        [Parameter(mandatory = $true)]$Template_os,
         [Parameter(mandatory = $true)]$Template_file,
         [Parameter(mandatory = $true)]$Template_var_file,
-        [Parameter(mandatory = $true)]$template_edition,
-        [Parameter(mandatory = $true)]$template_unattended,
+        $template_edition,
+        $template_unattended,
         [Parameter(mandatory = $true)]$template_path_packer,
         $static_ip,
         $default_gw,
@@ -56,8 +57,14 @@ function deploy-template {
     )
     if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
     if (!$credential) { $credential = get-credential }
-    if (!$winadmin_password) { $winadmin_password = Read-Host 'Enter local admin password' }
-    Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition -static_ip $static_ip -default_gw $default_gw
-    packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
-    Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
+    if ($Template_os -eq "windows") { $local_user = "admin" } else { $local_user = "user:ubuntu" }
+    if (!$winadmin_password) { $winadmin_password = Read-Host "Enter local $local_user password" }
+    if ($Template_os -eq "windows") {
+        Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition -static_ip $static_ip -default_gw $default_gw
+        packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
+        Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
+    }
+    if ($Template_os -eq "ubuntu") {
+        packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "ssh-password=$winadmin_password" $Template_file   
+    }
 }
