@@ -40,6 +40,8 @@ deploy-template `
 -credential $credential `
 -static_ip "1.1.4.2" `#optional static ip
 -default_gw "1.1.4.1" #optional static ip
+-dns1 "8.8.8.8" #optional static ip
+-dns1 "8.8.4.4" #optional static ip
 ```
 
 
