@@ -63,12 +63,27 @@ smb://someserver/share/windows.iso
 ### Ubuntu notes
 
 packer will start a local webserver this must be accessible by the vm 
+or use an iso with label cidata
+example:
+
+```
+"cd_files": [
+  "{{template_dir}}/http/meta-data",
+  "{{template_dir}}/http/user-data"
+],
+"cd_label": "cidata",
+"boot_command": [
+ "ds=nocloud-net;s=/cidata/",
+ 
+```
 
 ### Prerequisites
 
 Required for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
 for the automated installing of windows updates
 
+for ubuntu if not using the packer web server but iso an binary for creating the iso is needed:
+for windows for example mkisofs , the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
 
 ## Authors
 
