@@ -57,7 +57,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "execute_command": "echo {{user `ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "script": "{{template_dir}}/../scripts/setup_ubuntu2004.sh"
     }
   ]

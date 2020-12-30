@@ -12,5 +12,4 @@ publish-template `
     -template_os "ubuntu" `
     -Template_file $template_path"\ubuntu-20.04-server.json"  `
     -Template_var_file $template_var_path"\ubuntu-20.04-server.variables.json" `
-    -template_path_packer "c:\packer" `
-    -winadmin_password "ubuntu"
+    -template_path_packer "c:\packer" 
