@@ -4,7 +4,13 @@ Template automation using packer
 
 ## Getting Started
 
-Use the deployment powershell script windows\2019\deploy-2019-template.ps1 so you get asked for credentials 
+Use the deployment powershell scripts in deploy-scripts so you get asked for credentials 
+with var files examples located in windows\2019
+```
+powershell -file deploy-scripts\deploy-2019-standard
+powershell -file deploy-scripts\deploy-2019-core
+powershell -file deploy-scripts\deploy-2019-all 
+```
 
 or manual:  \
 windows 2019 template:\
