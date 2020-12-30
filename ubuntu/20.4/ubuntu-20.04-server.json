@@ -5,10 +5,10 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
-      "boot_wait": "140s",
+      "boot_wait": "7s",
       "boot_command": [
-        "<tab><wait><enter><wait>",
-        "yes",
+        "<enter><enter><f6><esc><wait> ",
+        "autoinstall ds=nocloud-net;s=/cidata/",
         "<enter>"
       ],
       "cd_files": [
@@ -24,7 +24,6 @@
       "folder": "{{user `vcenter_folder`}}",
       "guest_os_type": "ubuntu64Guest",
       "cluster": "{{user `vcenter_cluster`}}",
-      "http_directory": "{{user `http_directory`}}",
       "insecure_connection": "true",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_urls`}}",
