@@ -31,7 +31,7 @@ function Update-UnattendXml {
         #static ip
         if ($static_ip) {
             foreach ($item in $UnattendXml.unattend.settings.component.firstlogoncommands.SynchronousCommand | where-object { $_.commandline -like "*set-static-ip.ps1*" }) {
-                $item.commandline = "cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\set-static-ip.ps1 '$static_ip' '$default_gw' '$dns1' '$dns2'" 
+                $item.commandline = "cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\set-static-ip.ps1 `"$static_ip`" `"$default_gw`" `"$dns1`" `"$dns2`""
             }
         }
         $UnattendXml.Save($ResolvedPath)
