@@ -3,9 +3,8 @@
 # Ask for credentials vcenter and local admin password
 # and pass them to packer
 #####
-$PSparentpath = (get-item $PSScriptRoot).Parent.fullname
-$template_path = $PSparentpath + "\vmware-templates\windows\2019"
-$template_var_path = (get-item $PSparentpath).Parent.fullname + "\vars"
+$template_path = $PSscriptroot + "\..\windows\2019"
+$template_var_path = $PSscriptroot + "\..\..\vars"
 #####
 . "$PSScriptRoot\deploy-template.ps1"
 if (!(test-path $template_var_path"\win2019.core.variables.json")) { $template_var_path = $template_path }

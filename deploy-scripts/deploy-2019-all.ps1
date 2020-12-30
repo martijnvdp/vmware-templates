@@ -4,14 +4,11 @@
 # and pass them to packer
 #####
 $PSparentpath = (get-item $PSScriptRoot).Parent.fullname
-$template_path = $PSparentpath + "\vmware-templates\windows\2019"
+$template_path = $PSparentpath + "\windows\2019"
 # var and unattended file path default parent from git clone dir
 $template_var_path = (get-item $PSparentpath).Parent.fullname + "\vars"
 #####
 . "$PSScriptRoot\deploy-template.ps1"
-Write-Output $PSparentpath
-Write-Output $template_path
-Write-Output $template_var_path
 $credential = Get-Credential
 $localadmin_password = Read-Host 'Enter local admin password'
 if (!(test-path $template_var_path"\win2019.core.variables.json")) { $template_var_path = $template_path }
