@@ -45,6 +45,6 @@ function deploy-template {
     if (!$credential) { $credential = get-credential }
     if (!$winadmin_password) { $winadmin_password = Read-Host 'Enter local admin password' }
     Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition
-    packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credentials.username)"  -var "vcenter_password=$($Credentials.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
+    packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
     Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition
 }
