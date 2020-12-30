@@ -19,6 +19,7 @@
       "winrm_password": "{{user `winadmin-password`}}",
       "convert_to_template": "true",
       "vm_name": "{{user `vm-name`}}",
+      "notes": "{{user `vm-notes`}}",
       "guest_os_type": "windows9Server64Guest",
       "CPUs": "{{user `vm-cpu-num`}}",
       "RAM": "{{user `vm-mem-size`}}",
