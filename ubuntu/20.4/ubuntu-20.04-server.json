@@ -5,10 +5,10 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
-      "boot_wait": "7s",
+      "boot_wait": "140s",
       "boot_command": [
-        "<enter><enter><f6><esc><wait> ",
-        "autoinstall ds=nocloud-net;s=/cidata/",
+        "<tab>",
+        "yes",
         "<enter>"
       ],
       "cd_files": [
