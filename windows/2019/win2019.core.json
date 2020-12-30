@@ -1,0 +1,78 @@
+{
+  "sensitive-variables": [
+    "vsphere_password",
+    "winadmin_password"
+  ],
+  "builders": [
+    {
+      "type": "vsphere-iso",
+      "vcenter_server": "{{user `vcenter_server`}}",
+      "username": "{{user `vcenter_username`}}",
+      "password": "{{user `vcenter_password`}}",
+      "insecure_connection": "true",
+      "datacenter": "{{user `vcenter_datacenter`}}",
+      "cluster": "{{user `vcenter_cluster`}}",
+      "datastore": "{{user `vcenter_datastore`}}",
+      "folder": "{{user `vcenter_folder`}}",
+      "communicator": "winrm",
+      "winrm_username": "Administrator",
+      "winrm_password": "{{user `winadmin-password`}}",
+      "convert_to_template": "true",
+      "vm_name": "{{user `vm-name`}}",
+      "guest_os_type": "windows9Server64Guest",
+      "CPUs": "{{user `vm-cpu-num`}}",
+      "RAM": "{{user `vm-mem-size`}}",
+      "RAM_reserve_all": true,
+      "firmware": "efi-secure",
+      "boot_wait": "70s",
+      "boot_command": [
+        "<tab><wait><enter><wait>",
+        "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
+      ],
+      "cdrom_type": "sata",
+      "disk_controller_type": "lsilogic-sas",
+      "network_adapters": [
+        {
+          "network": "{{user `vcenter_network`}}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "storage": [
+        {
+          "disk_size": "{{user `vm-disk-size`}}",
+          "disk_thin_provisioned": true
+        }
+      ],
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_paths": [
+        "[] /vmimages/tools-isoimages/windows.iso"
+      ],
+      "floppy_files": [
+        "autounattend.xml",
+        "../scripts/disable-network-discovery.cmd",
+        "../scripts/enable-rdp.cmd",
+        "../scripts/enable-winrm.ps1",
+        "../scripts/install-vm-tools.cmd",
+        "../scripts/set-temp.ps1"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "windows-shell",
+      "inline": [
+        "ipconfig"
+      ]
+    },
+    {
+      "type": "windows-update",
+      "filters": [
+        "include:$true"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    }
+  ]
+}

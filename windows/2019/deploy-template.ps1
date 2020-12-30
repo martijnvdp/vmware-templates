@@ -1,15 +1,3 @@
-# Powershell deployment script for packer
-# 
-# Ask for credentials vcenter and local admin password
-# and pass them to packer
-#####vars
-$Template_file = ".\win2019.standard.json"
-$Template_var_file = ".\win2019.variables.json"
-$template_edition = "standard"
-$template_unattended = ".\autounattend.xml"
-$template_path_packer = "c:\packer"
-##end vars
-
 function Update-UnattendXml {
     param (
         [string]$Path,
@@ -17,7 +5,7 @@ function Update-UnattendXml {
         [Parameter(mandatory = $true)][validateset("core", "standard")][string]$Edition
     )
     $editions = @{
-        core     = "Windows Server 2019 SERVERCORE"
+        core     = "Windows Server 2019 SERVERSTANDARDCORE"
         standard = "Windows Server 2019 SERVERSTANDARD"
     }
     $ErrorActionPreference = 'Stop'
@@ -42,9 +30,19 @@ function Update-UnattendXml {
         $_.Exception.Message
     }
 }
-if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
-$credentials = get-credential
-$winadmin_password = Read-Host 'Enter local admin password'
-Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition
-packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credentials.username)"  -var "vcenter_password=$($Credentials.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
-Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition
+function deploy-template {
+    param(
+        [Parameter(mandatory = $true)]$Template_file,
+        [Parameter(mandatory = $true)]$Template_var_file,
+        [Parameter(mandatory = $true)]$template_edition,
+        [Parameter(mandatory = $true)]$template_unattended,
+        [Parameter(mandatory = $true)]$template_path_packer
+    )
+  
+    if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
+    $credentials = get-credential
+    $winadmin_password = Read-Host 'Enter local admin password'
+    Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition
+    packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credentials.username)"  -var "vcenter_password=$($Credentials.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
+    Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition
+}
