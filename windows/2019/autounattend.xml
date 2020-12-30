@@ -71,7 +71,7 @@
           <InstallFrom>
             <MetaData wcm:action="add">
               <Key>/IMAGE/NAME</Key>
-              <Value>Windows Server 2019 SERVERSTANDARDCORE</Value>
+              <Value>Windows Server 2019 SERVERSTANDARD</Value>
             </MetaData>
           </InstallFrom>
           <InstallTo>
@@ -171,24 +171,29 @@
           <Order>11</Order>
           <Description>Install VMware Tools</Description>
         </SynchronousCommand>
+          <SynchronousCommand wcm:action="add">
+          <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\set-static-ip.ps1 '1.2.3.4' '1.2.3.1'</CommandLine>
+          <Order>12</Order>
+          <Description>Set static ip</Description>
+        </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <CommandLine>cmd.exe /c a:\enable-rdp.cmd</CommandLine>
-          <Order>12</Order>
+          <Order>13</Order>
           <Description>Enable RDP</Description>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\set-temp.ps1</CommandLine>
-          <Order>13</Order>
+          <Order>14</Order>
           <Description>Set Temp Folders</Description>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\install-google-chrome.ps1</CommandLine>
-          <Order>14</Order>
+          <Order>15</Order>
           <Description>Install Google Chrome</Description>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
           <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\install-bginfo.ps1</CommandLine>
-          <Order>15</Order>
+          <Order>16</Order>
           <Description>Install BGinfo</Description>
         </SynchronousCommand>
         <SynchronousCommand wcm:action="add">
