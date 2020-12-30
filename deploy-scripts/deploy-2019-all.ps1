@@ -3,10 +3,8 @@
 # Ask for credentials vcenter and local admin password
 # and pass them to packer
 #####
-$PSparentpath = (get-item $PSScriptRoot).Parent.fullname
-$template_path = $PSparentpath + "\windows\2019"
-# var and unattended file path default parent from git clone dir
-$template_var_path = (get-item $PSparentpath).Parent.fullname + "\vars"
+$template_path = $PSscriptroot + "\..\windows\2019"
+$template_var_path = $PSscriptroot + "\..\..\vars"
 #####
 . "$PSScriptRoot\deploy-template.ps1"
 $credential = Get-Credential
