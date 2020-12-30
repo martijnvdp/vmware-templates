@@ -49,6 +49,8 @@ function deploy-template {
         [Parameter(mandatory = $true)]$template_path_packer,
         $static_ip,
         $default_gw,
+        $dns1,
+        $dns2,
         [pscredential]$credential,
         [string]$winadmin_password
     )
