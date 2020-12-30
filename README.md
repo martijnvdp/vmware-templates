@@ -11,8 +11,38 @@ windows 2019 template:\
 packer build --var-file c:\Users\user\variables_win2019.json win2019.standard.json
 
 ## EFI
-For efi secure boot you need to press a key manually or use a custom iso as descibed here:
-https://taylor.dev/removing-press-any-key-prompts-for-windows-install-automation/  
+For EFI boot without custom image you need to reboot the vm and press a key manually \
+work around boot delay 70s and the following boot_command : 
+```
+        "boot_wait": "70s",
+        "boot_command": [
+          "<tab><wait><enter><wait>",
+          "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
+        ],
+```
+
+
+### Deploy template function
+deploy-template function in \templates\windows\2019\deploy-template.ps1 \
+to use include this file in your script:  \
+
+```
+. "$PSScriptRoot\deploy-template.ps1"
+$credential = get-credential
+$winadmin_password = Read-Host 'Enter local admin password' 
+deploy-template `
+-Template_file ".\windows.2019.json" `
+-Template_var_file ".\windows.2019.variables.json" `
+-template_edition "standard" `
+-template_unattended ".\autounattend.xml" `
+-template_path_packer "c:\packer" `
+-winadmin_password $winadmin_password `
+-credential $credential `
+-static_ip "1.1.4.2" `#optional static ip
+-default_gw "1.1.4.1" #optional static ip
+```
+
+
 
 ### variable files
 
