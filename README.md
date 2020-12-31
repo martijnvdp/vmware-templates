@@ -48,6 +48,9 @@ deploy-template `
 -default_gw "1.1.4.1" #optional static ip
 -dns1 "8.8.8.8" #optional static ip
 -dns1 "8.8.4.4" #optional static ip
+-wsus_server "internal_wsus_server" #optional wsus server
+-wsus_group "wsus_target_group" #optional wsus target group
+
 ```
 
 
