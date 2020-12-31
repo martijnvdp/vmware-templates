@@ -65,7 +65,7 @@
     {
       "type": "powershell",
       "scripts": [
-        "{{template_dir}}/../../scripts/config2.ps1"
+        "{{template_dir}}/../scripts/config2.ps1"
       ]
     },
     {
