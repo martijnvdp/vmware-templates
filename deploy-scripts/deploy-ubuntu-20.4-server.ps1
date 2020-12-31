@@ -6,7 +6,7 @@
 $template_path = $PSscriptroot + "\..\ubuntu\20.4"
 $template_var_path = $PSscriptroot + "\..\..\vars"
 #####
-. "$PSScriptRoot\deploy-template.ps1"
+. "$PSScriptRoot\function\publish-template.ps1"
 if (!(test-path $template_var_path"\ubuntu-20.04-server.variables.json")) { $template_var_path = $template_path }
 publish-template `
     -template_os "ubuntu" `
