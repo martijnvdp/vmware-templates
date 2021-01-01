@@ -89,10 +89,10 @@ for ubuntu if not using the packer web server but iso an binary for creating the
 for windows for example mkisofs , the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
 
 ### Issues
-multiple disk on one storage adapter gives invalid config 2
+More than one disk on the same storage adapter gives :Invalid configuration for device '2'
 https://github.com/hashicorp/packer/issues/10430
 
-work around use a storrage adapter for each disk
+work around use a storage adapter for each disk
 
 ## Authors
 
