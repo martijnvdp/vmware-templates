@@ -43,6 +43,11 @@
           "disk_size": "{{user `vm-disk-size`}}",
           "disk_thin_provisioned": true,
           "disk_controller_index": "0"
+        },
+        {
+          "disk_size": "{{user `vm-udisk-size`}}",
+          "disk_thin_provisioned": true,
+          "disk_controller_index": "0"
         }
       ],
       "iso_url": "{{user `iso_url`}}",

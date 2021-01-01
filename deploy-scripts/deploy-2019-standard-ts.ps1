@@ -7,10 +7,10 @@ $template_path = $PSscriptroot + "\..\windows\2019"
 $template_var_path = $PSscriptroot + "\..\..\vars"
 #####
 . "$PSScriptRoot\function\publish-template.ps1"
-if (!(test-path $template_var_path"\win2019.standard.variables.json")) { $template_var_path = $template_path }
+if (!(test-path $template_var_path"\win2019.standard-ts.variables.json")) { $template_var_path = $template_path }
 publish-template `
-    -Template_file $template_path"\win2019.standard.json"  `
-    -Template_var_file $template_var_path"\win2019.standard.variables.json" `
+    -Template_file $template_path"\win2019.standard-ts.json"  `
+    -Template_var_file $template_var_path"\win2019.standard-ts.variables.json" `
     -template_edition "standard" `
     -template_unattended $template_path"\autounattend.xml" `
     -template_os "windows" `
