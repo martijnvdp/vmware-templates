@@ -88,6 +88,12 @@ for the automated installing of windows updates
 for ubuntu if not using the packer web server but iso an binary for creating the iso is needed:
 for windows for example mkisofs , the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
 
+### Issues
+multiple disk on one storage adapter gives invalid config 2
+https://github.com/hashicorp/packer/issues/10430
+
+work around use a storrage adapter for each disk
+
 ## Authors
 
 * **M van der Ploeg** - *Initial work* - [martijn](https://github.com/martijnxd)
