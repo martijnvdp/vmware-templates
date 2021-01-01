@@ -48,6 +48,9 @@ deploy-template `
 -default_gw "1.1.4.1" #optional static ip
 -dns1 "8.8.8.8" #optional static ip
 -dns1 "8.8.4.4" #optional static ip
+-wsus_server "internal_wsus_server" #optional wsus server
+-wsus_group "wsus_target_group" #optional wsus target group
+
 ```
 
 
@@ -84,6 +87,12 @@ for the automated installing of windows updates
 
 for ubuntu if not using the packer web server but iso an binary for creating the iso is needed:
 for windows for example mkisofs , the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
+
+### Issues
+More than one disk on the same storage adapter gives :Invalid configuration for device '2'
+https://github.com/hashicorp/packer/issues/10430
+
+work around use a storage adapter for each disk
 
 ## Authors
 
