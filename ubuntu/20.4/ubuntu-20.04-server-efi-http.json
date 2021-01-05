@@ -4,16 +4,16 @@
       "CPUs": 2,
       "RAM": 2048,
       "RAM_reserve_all": true,
-      "firmware": "bios",
+      "firmware": "efi-secure",
       "boot_command": [
-         "<esc><esc><esc>",
-         "<enter><wait>",
-         "/casper/vmlinuz ",
-         "root=/dev/sr0 ",
-         "initrd=/casper/initrd ",
-         "autoinstall ",
-         "ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
-         "<enter>"
+        "<esc><esc><esc>",
+        "<enter><wait>",
+        "/casper/vmlinuz ",
+        "root=/dev/sr0 ",
+        "initrd=/casper/initrd ",
+        "autoinstall ",
+        "ds=nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
+        "<enter>"
       ],
       "http_ip": "{{user `packer_ip_for_http_server`}}",
       "http_port_min": "{{user `packer_ip_port_for_http_server`}}",
@@ -59,9 +59,9 @@
   ],
   "provisioners": [
     {
-       "type": "shell",
-       "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-       "script": "scripts/setup_ubuntu2004.sh"
-     }
-   ]
+      "type": "shell",
+      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "{{template_dir}}/../scripts/setup_ubuntu2004.sh"
+    }
+  ]
 }
