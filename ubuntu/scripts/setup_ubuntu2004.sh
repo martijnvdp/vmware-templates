@@ -15,4 +15,5 @@ rm -f /etc/machine-id
 # Reset Cloud-init state
 # systemctl stop cloud-init
 # rm -rf /var/lib/cloud/
+sudo systemctl start ssh
 cloud-init clean -s -l

@@ -1,0 +1,23 @@
+{
+    "vm_name": "Ubuntu-20.04-Server-template-efi",
+    "vm-notes": "Ubuntu 20.04 Server\nBuild by packer {{isotime \"20060102150405\"}}",
+    "vm-cpu-num": "2",
+    "vm-mem-size": "4096",
+    "vm-disk-size": "20480",
+    "vcenter_server": "",
+    "vcenter_username": "",
+    "vcenter_password": "",
+    "vcenter_datacenter": "DC",
+    "vcenter_datastore": "Datastore",
+    "vcenter_cluster": "Cluster",
+    "vcenter_folder": "Templates",
+    "vcenter_network": "VM Network",
+    "guest_os_type": "ubuntu64Guest",
+    "iso_urls": "https://releases.ubuntu.com/focal/ubuntu-20.04.1-live-server-amd64.iso",
+    "iso_checksum_type": "sha256",
+    "iso_checksum": "443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
+    "ssh_username": "ubuntu",
+    "ssh_password": "",
+    "packer_ip_for_http_server": "",
+    "packer_ip_port_for_http_server": "1234"
+}
