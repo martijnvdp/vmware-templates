@@ -71,6 +71,6 @@ function publish-template {
         Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
     }
     if ($Template_os -eq "ubuntu") {
-        packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "ssh-password=$winadmin_password" $Template_file   
+        packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)" $Template_file   
     }
 }

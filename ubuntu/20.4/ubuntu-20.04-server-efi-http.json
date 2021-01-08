@@ -39,7 +39,7 @@
       "password": "{{user `vcenter_password`}}",
       "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
       "ssh_password": "{{user `ssh_password`}}",
-      "ssh_timeout": "20m",
+      "ssh_timeout": "40m",
       "ssh_handshake_attempts": "100000",
       "ssh_username": "{{user `ssh_username`}}",
       "storage": [
