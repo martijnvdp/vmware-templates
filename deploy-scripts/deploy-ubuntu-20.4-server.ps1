@@ -6,8 +6,8 @@ Param($template_varfile,[pscredential]$credential)
 
 . "$PSScriptRoot\function\publish-template.ps1"
 #####
-$template_file = $PSscriptroot + "\..\templates\ubuntu\20.4\server-efi.json"
-$template_varfile= $PSscriptroot+ "\..\templates\ubuntu\20.4\server-efi.variables.json"
+$template_file = $PSscriptroot + "\..\templates\ubuntu\20.4\server.json"
+$template_varfile= $PSscriptroot+ "\..\templates\ubuntu\20.4\server.variables.json"
 #$builder_var_file= $PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"
 $builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
 #####
