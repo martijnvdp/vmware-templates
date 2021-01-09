@@ -8,9 +8,9 @@ Param($template_varfile,[pscredential]$credential)
 #####
 $template_file = $PSscriptroot + "\..\templates\centos\8\server.json"
 $template_varfile= $PSscriptroot+ "\..\templates\centos\8\server.variables.json"
-#$builder_var_file= $PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"
 $builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
 #####
+if (!(test-path $builder_var_file)){$PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"} 
 
 publish-template `
     -Template_os "linux" `

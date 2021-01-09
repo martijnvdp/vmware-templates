@@ -8,11 +8,11 @@ Param($template_varfile,$template_unattended,$template_edition,[pscredential]$cr
 #####
 $template_file = $PSscriptroot + "\..\templates\Windows\2019\core.json"
 $template_varfile= $PSscriptroot+ "\..\templates\Windows\2019\core.variables.json"
-#$builder_var_file= $PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"
 $builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
 $template_unattended= $PSscriptroot + "\..\templates\windows\2019\autounattend.xml"
 $template_edition="core"
 #####
+if (!(test-path $builder_var_file)){$PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"} 
 
 publish-template `
     -Template_os "windows" `
