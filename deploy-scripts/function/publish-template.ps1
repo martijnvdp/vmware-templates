@@ -49,6 +49,7 @@ function publish-template {
         [Parameter(mandatory = $true)]$Template_os,
         [Parameter(mandatory = $true)]$Template_file,
         [Parameter(mandatory = $true)]$Template_var_file,
+        [Parameter(mandatory = $true)]$Builder_var_file,
         $template_edition,
         $template_unattended,
         [Parameter(mandatory = $true)]$template_path_packer,
@@ -63,14 +64,13 @@ function publish-template {
     )
     if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
     if (!$credential) { $credential = get-credential }
-    if ($Template_os -eq "windows") { $local_user = "admin" } else { $local_user = "user:ubuntu" }
-    if (!$winadmin_password) { $winadmin_password = Read-Host "Enter local $local_user password" }
-    if ($Template_os -eq "windows") {
+    if ($Template_os -eq "windows") { 
+        $winadmin_password = Read-Host "Enter local administrator password" 
         Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition -static_ip $static_ip -default_gw $default_gw -wsus_server $wsus_server -wsus_group $wsus_group
-        packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
+        packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
         Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
     }
     if ($Template_os -eq "ubuntu") {
-        packer build -force --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)" $Template_file   
+        packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)" $Template_file   
     }
 }

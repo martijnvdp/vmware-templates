@@ -1,0 +1,11 @@
+{
+  "vm-name": "Win2019-Terminalserver",
+  "vm-notes": "Windows 2019 Terminal server - standard with gui",
+  "vm-cpu-num": "2",
+  "vm-mem-size": "4096",
+  "vm-disk-size": "40960",
+  "winadmin-password": "",
+  "iso_url": "smb://iso.packer.local/iso/w2019eval.iso",
+  "iso_checksum": "549BCA46C055157291BE6C22A3AAAED8330E78EF4382C99EE82C896426A1CEE1",
+  "iso_checksum_type": "sha256"
+}
