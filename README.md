@@ -46,23 +46,9 @@ working efi boot:
         "boot<enter>"
       ],
 ```
-
-### Deploy template function
-deploy-template function in \templates\windows\2019\deploy-template.ps1 \
-to use include this file in your script:  \
-
+## Static ip or custom wsus server settings
+static ip or custom wsus settings can be set from the windows deployment scripts
 ```
-. "$PSScriptRoot\deploy-template.ps1"
-$credential = get-credential
-$winadmin_password = Read-Host 'Enter local admin password' 
-deploy-template `
--Template_file ".\windows.2019.json" `
--Template_var_file ".\windows.2019.variables.json" `
--template_edition "standard" `
--template_unattended ".\autounattend.xml" `
--template_path_packer "c:\packer" `
--winadmin_password $winadmin_password `
--credential $credential `
 -static_ip "1.1.4.2" `#optional static ip
 -default_gw "1.1.4.1" #optional static ip
 -dns1 "8.8.8.8" #optional static ip
@@ -71,8 +57,6 @@ deploy-template `
 -wsus_group "wsus_target_group" #optional wsus target group
 
 ```
-
-
 
 ### variable files
 
@@ -84,8 +68,9 @@ smb://someserver/share/windows.iso
 
 ### Ubuntu notes
 
-packer will start a local webserver this must be accessible by the vm 
-or use an iso with label cidata
+packer will start a local webserver this must be accessible by the VM  so you have to open the port in the local firewall
+\
+Or use an iso with label cidata
 example:
 
 ```
