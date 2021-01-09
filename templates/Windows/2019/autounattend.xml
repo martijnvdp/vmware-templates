@@ -71,7 +71,7 @@
           <InstallFrom>
             <MetaData wcm:action="add">
               <Key>/IMAGE/NAME</Key>
-              <Value>Windows Server 2019 SERVERSTANDARDCORE</Value>
+              <Value>Windows Server 2019 SERVERSTANDARD</Value>
             </MetaData>
           </InstallFrom>
           <InstallTo>
@@ -96,7 +96,7 @@
     <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <AutoLogon>
         <Password>
-          <Value>Windows4all</Value>
+          <Value>password</Value>
           <PlainText>true</PlainText>
         </Password>
         <LogonCount>2</LogonCount>
@@ -119,7 +119,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>3</Order>
           <Description>Run fist config script</Description>
-          <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\config1.ps1 </CommandLine>
+          <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\config1.ps1  -IP "0.0.0.0" -GW "0.0.0.0" -DNS1 "8.8.8.8" -DNS2 "8.8.4.4"</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>
@@ -134,7 +134,7 @@
       </OOBE>
       <UserAccounts>
         <AdministratorPassword>
-          <Value>Windows4all</Value>
+          <Value>password</Value>
           <PlainText>true</PlainText>
         </AdministratorPassword>
       </UserAccounts>
