@@ -1,0 +1,10 @@
+{
+    "vcenter_server": "vc.vmware.local",
+    "vcenter_username": "",
+    "vcenter_password": "",
+    "vcenter_datacenter": "datacenter",
+    "vcenter_datastore": "Datastore",
+    "vcenter_cluster": "Cluster",
+    "vcenter_folder": "Templates",
+    "vcenter_network": "VM Network"
+}

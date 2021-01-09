@@ -36,7 +36,7 @@
           "network_card": "vmxnet3"
         }
       ],
-      "notes": "Default SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
+      "notes": "{{user `vm-notes`}}\nDefault SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
       "password": "{{user `vcenter_password`}}",
       "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
       "ssh_password": "{{user `ssh_password`}}",

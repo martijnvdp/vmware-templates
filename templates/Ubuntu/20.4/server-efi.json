@@ -1,8 +1,8 @@
 {
   "builders": [
     {
-      "CPUs": 2,
-      "RAM": 2048,
+      "CPUs": "{{user `vm-cpu-num`}}",
+      "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
       "boot_command": [
@@ -35,7 +35,7 @@
           "network_card": "vmxnet3"
         }
       ],
-      "notes": "Default SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
+      "notes": "{{user `vm-notes`}}\nDefault SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
       "password": "{{user `vcenter_password`}}",
       "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
       "ssh_password": "{{user `ssh_password`}}",
@@ -44,7 +44,7 @@
       "ssh_username": "{{user `ssh_username`}}",
       "storage": [
         {
-          "disk_size": 20480,
+          "disk_size": "{{user `vm-disk-size`}}",
           "disk_thin_provisioned": true
         }
       ],
