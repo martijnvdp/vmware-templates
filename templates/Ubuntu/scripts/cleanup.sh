@@ -1,9 +1,9 @@
 #!/bin/bash
 
-apt-get install -f -y python net-tools curl cloud-init python3-pip
+#apt-get install -f -y python net-tools curl cloud-init python3-pip
 
 # Install VMWare Guestinfo Cloud-init source, used by rancher
-curl -sSL https://raw.githubusercontent.com/vmware/cloud-init-vmware-guestinfo/master/install.sh | sh -
+#curl -sSL https://raw.githubusercontent.com/vmware/cloud-init-vmware-guestinfo/master/install.sh | sh -
 
 # Reset Machine-ID
 # http://manpages.ubuntu.com/manpages/bionic/man5/machine-id.5.html
@@ -13,10 +13,12 @@ curl -sSL https://raw.githubusercontent.com/vmware/cloud-init-vmware-guestinfo/m
 rm -f /etc/machine-id
 
 # Reset Cloud-init state
-# systemctl stop cloud-init
-# rm -rf /var/lib/cloud/
+systemctl stop cloud-init
+rm -rf /var/lib/cloud/
 sudo systemctl start ssh
 cloud-init clean -s -l
 # remove cloud init to fix customization by vmware https://kb.vmware.com/s/article/54986
 sleep 2m
-sudo apt -y purge cloud-init
+#sudo rm /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg
+sudo apt -y purge cloud-init && sudo apt -y autoremove
+sudo rm -rf /etc/cloud

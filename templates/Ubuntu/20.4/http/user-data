@@ -12,8 +12,6 @@ autoinstall:
         hostname: ubuntu-server
         username: ubuntu
         password: $6$rounds=4096$8dkK1P/oE$2DGKKt0wLlTVJ7USY.0jN9du8FetmEr51yjPyeiR.zKE3DGFcitNL/nF1l62BLJNR87lQZixObuXYny.Mf17K1
-    network:
-        config: enabled
     ssh:
         install-server: yes
         allow-pw: yes
@@ -25,7 +23,7 @@ autoinstall:
             - arches: [i386, amd64]
               uri: "http://ro.archive.ubuntu.com/ubuntu/"
     user-data:
-        disable_root: true
+        disable_root: false
         hostname: ubuntu-server
         preserve_hostname: false
         timezone: Europe/Amsterdam
@@ -36,3 +34,5 @@ autoinstall:
       - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/ubuntu
       - curtin in-target --target=/target -- apt-get update
       - curtin in-target --target=/target -- apt-get upgrade --yes
+      - curtin in-target --tar get=/target -- apt-get install ansible --yes
+      - curtin in-target --tar get=/target -- sudo rm /etc/netplan/00-installer-config.yaml

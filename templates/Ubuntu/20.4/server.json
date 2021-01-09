@@ -58,9 +58,15 @@
   ],
   "provisioners": [
     {
+      "type": "ansible-local",
+      "playbook_file": "{{template_dir}}/../../../playbooks/setup-ubuntu.yml"
+    },
+    {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "{{template_dir}}/../scripts/setup_ubuntu2004.sh"
+      "execute_command": "echo 'ubuntu'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "{{template_dir}}/../scripts/cleanup.sh"
+      ]
     }
-  ]
+ ]
 }

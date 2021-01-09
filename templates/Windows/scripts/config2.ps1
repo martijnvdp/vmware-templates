@@ -53,6 +53,8 @@ Write-Host "Enabling RDP connections"
 netsh advfirewall firewall set rule group="Remote Desktop" new enable=yes
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 0 | Out-Null
 
+#time zone
+Set-TimeZone -Name "W. Europe Standard Time"
 # Install trusted CA certificates
 
 # Get certificates
