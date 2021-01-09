@@ -78,48 +78,6 @@
       - wget
     when: ansible_os_family == "RedHat"
 
-  - name: Install dependencies for VirtualBox Guest Additions (RedHat)
-    dnf:
-      name: "{{ packages }}"
-      state: latest
-    vars:
-      packages:
-      - bzip2
-      - dkms
-      - kernel-devel
-      - kernel-headers
-      - gcc
-      - make
-      - perl
-    when:
-      - ansible_os_family == "RedHat"
-      - ansible_virtualization_type == "virtualbox"
-
-  - name: Mount VBoxGuestAdditions.iso
-    mount:
-      path: /mnt
-      src: /home/packer/VBoxGuestAdditions.iso
-      fstype: iso9660
-      opts: ro,loop
-      state: mounted
-    when: ansible_virtualization_type == "virtualbox"
-
-  - name: Install VBoxGuestAdditions.iso
-    command: sh /mnt/VBoxLinuxAdditions.run
-    when: ansible_virtualization_type == "virtualbox"
-
-  - name: Umount VBoxGuestAdditions.iso
-    mount:
-      path: /mnt
-      state: absent
-    when: ansible_virtualization_type == "virtualbox"
-
-  - name: Delete VBoxGuestAdditions.iso
-    file:
-      path: /home/packer/VBoxGuestAdditions.iso
-      state: absent
-    when: ansible_virtualization_type == "virtualbox"
-
   - name: Install open-vm-tools (RedHat)
     dnf:
       name: open-vm-tools

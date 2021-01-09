@@ -5,7 +5,7 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
-      "boot_command": ["e<down><down><end><bs><bs><bs><bs><bs>text ks=/cidata/ks.cfg<leftCtrlOn>x<leftCtrlOff>"],
+      "boot_command": ["e<down><down><end><bs><bs><bs><bs><bs>text ks=cdrom:/dev/sr1:/ks.cfg<leftCtrlOn>x<leftCtrlOff>"],
       "cd_files": [
       "{{template_dir}}/http/ks.cfg"
       ],
@@ -22,7 +22,6 @@
       "insecure_connection": "true",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_urls`}}",
-      "floppy_files": ["{{template_dir}}/ks/ks.cfg"],
       "name": "{{user `iso_target_name`}}",
       "network_adapters": [
         {
