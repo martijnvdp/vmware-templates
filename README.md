@@ -9,6 +9,8 @@ with var files examples located in windows\2019
 ```
 powershell -file deploy-scripts\deploy-2019-standard
 powershell -file deploy-scripts\deploy-2019-core
+powershell -file deploy-scripts\deploy-centos-8.ps1
+powershell -file deploy-scripts\deploy-ubuntu-20.4.ps1
 powershell -file deploy-scripts\deploy-all 
 ```
 
