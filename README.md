@@ -13,7 +13,7 @@ powershell -file deploy-scripts\deploy-2019-all
 ```
 
 or manual:  \
-(for windows its better to use the deployment script due the autounattend.xml
+(for windows its better to use the deployment script due the autounattend.xml customazation) \
 example ubuntu 20.04 template:
 ```
 
