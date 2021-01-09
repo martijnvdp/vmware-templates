@@ -19,7 +19,7 @@
             "winrm_password": "{{user `winadmin-password`}}",
             "convert_to_template": "true",
             "vm_name": "{{user `vm-name`}}",
-            "notes": "{{user `vm-notes`}}\nDefault User: {{user `ssh_username`}}\nDefault Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",           "guest_os_type": "windows9Server64Guest",
+            "notes": "{{user `vm-notes`}}\nDefault User: Administrator\nDefault Pass: {{user `winadmin-password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
             "CPUs": "{{user `vm-cpu-num`}}",
             "RAM": "{{user `vm-mem-size`}}",
             "RAM_reserve_all": true,
