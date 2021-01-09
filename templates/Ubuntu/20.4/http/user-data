@@ -12,6 +12,8 @@ autoinstall:
         hostname: ubuntu-server
         username: ubuntu
         password: $6$rounds=4096$8dkK1P/oE$2DGKKt0wLlTVJ7USY.0jN9du8FetmEr51yjPyeiR.zKE3DGFcitNL/nF1l62BLJNR87lQZixObuXYny.Mf17K1
+    network:
+        config: enabled
     ssh:
         install-server: yes
         allow-pw: yes
@@ -23,7 +25,10 @@ autoinstall:
             - arches: [i386, amd64]
               uri: "http://ro.archive.ubuntu.com/ubuntu/"
     user-data:
-      disable_root: false
+        disable_root: true
+        hostname: ubuntu-server
+        preserve_hostname: false
+        timezone: Europe/Amsterdam
     late-commands:
       - sed -i -e 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /target/etc/ssh/sshd_config
       - sed -i -e 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /target/etc/ssh/sshd_config
