@@ -119,7 +119,13 @@ example:
  "ds=nocloud-net;s=/cidata/",
  
 ```
+Fix for ubuntu client customization conflict with cloud config:
+https://kb.vmware.com/s/article/54986
 
+last action in deployment
+```
+sudo apt -y purge cloud-init
+```
 ### Prerequisites
 
 Required for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
