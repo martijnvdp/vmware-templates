@@ -13,14 +13,15 @@ powershell -file deploy-scripts\deploy-2019-all
 ```
 
 or manual:  \
-windows 2019 template:\
+(for windows its better to use the deployment script due the autounattend.xml
+example ubuntu 20.04 template:
 ```
 
-packer build -force --var-file templates\Windows\2019\standard.variables.json \
+packer build -force --var-file templates\ubuntu\20.4\server-efi.variables.json" \
                      --var-file builders\vsphere-iso\vsphere-iso.variables.json \
                      -var "vcenter_username=username" \
                      -var "vcenter_password=password" \
-                     templates\Windows\2019\standard.json
+                     templates\ubuntu\20.4\server-efi.json
 ```    
 
 ## EFI
