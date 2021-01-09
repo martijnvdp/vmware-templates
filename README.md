@@ -24,8 +24,8 @@ packer build -force --var-file templates\ubuntu\20.4\server-efi.variables.json" 
                      templates\ubuntu\20.4\server-efi.json
 ```    
 
-## EFI
-For EFI boot without custom image you need to reboot the vm and press a key manually \
+## EFI windows 2019
+For Windows EFI boot without custom image you need to reboot the vm and press a key manually \
 work around boot delay 70s and the following boot_command : 
 ```
         "boot_wait": "70s",
@@ -34,7 +34,7 @@ work around boot delay 70s and the following boot_command :
           "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
         ],
 ```
-## EFI Ubuntu 20.04
+## EFI Ubuntu 20.04 seed from packer http server
 for ubuntu 20.04 the bootcmds need to be quoted after autoinstall \
 working efi boot:
 ```
@@ -46,6 +46,28 @@ working efi boot:
         "boot<enter>"
       ],
 ```
+## EFI Ubuntu 20.04 seed from iso created during deployment
+
+for this an iso creator is needed ,for windows for example mkisofs \
+the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
+
+
+```
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "linux /casper/vmlinuz --- autoinstall ds=nocloud;seedfrom=/cidata/",
+        "<enter><wait>",
+        "initrd /casper/initrd<enter><wait>",
+        "boot<enter>"
+      ],
+      "cd_files": [
+      "{{template_dir}}/http/meta-data",
+      "{{template_dir}}/http/user-data"
+      ],
+      "cd_label": "cidata",
+```
+
 ## Static ip or custom wsus server settings
 static ip or custom wsus settings can be set from the windows deployment scripts
 ```
