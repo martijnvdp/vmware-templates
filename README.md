@@ -68,6 +68,18 @@ the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
       "cd_label": "cidata",
 ```
 
+## EFI Centos 8 kickstart from iso created during deployment
+
+need to specify cdrom device:
+
+```
+"boot_command": ["e<down><down><end><bs><bs><bs><bs><bs>text ks=cdrom:/dev/sr1:/ks.cfg<leftCtrlOn>x<leftCtrlOff>"],
+      "cd_files": [
+      "{{template_dir}}/http/ks.cfg"
+      ],
+      "cd_label": "cidata",
+      "boot_wait": "3s",
+```      
 ## Static ip or custom wsus server settings
 static ip or custom wsus settings can be set from the windows deployment scripts
 ```
