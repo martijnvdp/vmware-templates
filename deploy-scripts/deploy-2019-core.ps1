@@ -1,4 +1,4 @@
-Param($template_varfile,$template_unattended,$template_edition)
+Param($template_varfile,$template_unattended,$template_edition,[pscredential]$credential,$local_admin_pass)
 # Powershell deployment script for packer
 # 
 # Ask for credentials vcenter and local admin password
@@ -16,6 +16,8 @@ $template_edition="core"
 
 publish-template `
     -Template_os "windows" `
+    -Credential $credential `
+    -local_admin_pass $local_admin_pass `
     -Template_file $template_file  `
     -Template_var_file $template_varfile `
     -Builder_var_file $builder_var_file `

@@ -60,13 +60,13 @@ function publish-template {
         $wsus_server,
         $wsus_group,
         [pscredential]$credential,
-        [string]$winadmin_password
+        [string]$local_admin_pass
     )
     if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
     if (!$credential) { $credential = get-credential }
     if ($Template_os -eq "windows") { 
-        $winadmin_password = Read-Host "Enter local administrator password" 
-        Update-UnattendXml -path $template_unattended -password $winadmin_password -edition $template_edition -static_ip $static_ip -default_gw $default_gw -wsus_server $wsus_server -wsus_group $wsus_group
+        if(!$local_admin_pass){$local_admin_pass = Read-Host "Enter local administrator password" }
+        Update-UnattendXml -path $template_unattended -password $local_admin_pass -edition $template_edition -static_ip $static_ip -default_gw $default_gw -wsus_server $wsus_server -wsus_group $wsus_group
         packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$winadmin_password" $Template_file
         Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
     }

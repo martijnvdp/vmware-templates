@@ -1,4 +1,4 @@
-Param($template_varfile)
+Param($template_varfile,[pscredential]$credential)
 # Powershell deployment script for packer
 # 
 # Ask for credentials vcenter and local admin password
@@ -12,6 +12,7 @@ $builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
 
 publish-template `
     -Template_os "ubuntu" `
+    -Credential $credential `
     -Template_file $template_file  `
     -Template_var_file $template_varfile `
     -Builder_var_file $builder_var_file `

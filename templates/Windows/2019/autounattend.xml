@@ -71,7 +71,7 @@
           <InstallFrom>
             <MetaData wcm:action="add">
               <Key>/IMAGE/NAME</Key>
-              <Value>Windows Server 2019 SERVERSTANDARD</Value>
+              <Value>Windows Server 2019 SERVERSTANDARDCORE</Value>
             </MetaData>
           </InstallFrom>
           <InstallTo>
@@ -119,7 +119,7 @@
         <SynchronousCommand wcm:action="add">
           <Order>3</Order>
           <Description>Run fist config script</Description>
-          <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\config1.ps1 </CommandLine>
+          <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\config1.ps1 System.Collections.Hashtable</CommandLine>
           <RequiresUserInput>true</RequiresUserInput>
         </SynchronousCommand>
       </FirstLogonCommands>
