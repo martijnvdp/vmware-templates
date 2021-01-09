@@ -5,31 +5,24 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
-      "boot_wait": "140s",
-      "boot_command":  [
+      "boot_command": [
         "<esc><wait>",
-        "<esc><wait>",
-        "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=/cidata/\"<enter><wait>",
-        "initrd /casper/initrd<enter><wait>",
-        "boot<enter>"
+        "linux ks=hd:fd0:/ks.cfg<enter>"
       ],
-      "cd_files": [
-        "{{template_dir}}/http/meta-data",
-        "{{template_dir}}/http/user-data"
-      ],
-      "cd_label": "cidata",
+      "boot_wait": "3s",
       "convert_to_template": "true",
       "create_snapshot": "false",
       "datacenter": "{{user `vcenter_datacenter`}}",
       "datastore": "{{user `vcenter_datastore`}}",
       "disk_controller_type": "pvscsi",
       "folder": "{{user `vcenter_folder`}}",
-      "guest_os_type": "ubuntu64Guest",
+      "guest_os_type": "centos8_64Guest",
       "cluster": "{{user `vcenter_cluster`}}",
       "insecure_connection": "true",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_urls`}}",
-      "name": "Ubuntu-20.04",
+      "floppy_files": ["{{template_dir}}/ks/ks.cfg"],
+      "name": "{{user `iso_target_name`}}",
       "network_adapters": [
         {
           "network": "{{user `vcenter_network`}}",
@@ -40,7 +33,7 @@
       "password": "{{user `vcenter_password`}}",
       "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
       "ssh_password": "{{user `ssh_password`}}",
-      "ssh_timeout": "20m",
+      "ssh_timeout": "40m",
       "ssh_handshake_attempts": "100000",
       "ssh_username": "{{user `ssh_username`}}",
       "storage": [
@@ -58,7 +51,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo {{user `ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
       "script": "{{template_dir}}/../scripts/setup_ubuntu2004.sh"
     }
   ]

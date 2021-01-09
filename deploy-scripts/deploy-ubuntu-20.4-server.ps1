@@ -13,7 +13,7 @@ $builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
 #####
 
 publish-template `
-    -Template_os "ubuntu" `
+    -Template_os "linux" `
     -Credential $credential `
     -Template_file $template_file  `
     -Template_var_file $template_varfile `
