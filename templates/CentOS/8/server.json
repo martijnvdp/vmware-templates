@@ -5,10 +5,11 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
-      "boot_command": [
-        "<esc><wait>",
-        "linux ks=hd:fd0:/ks.cfg<enter>"
+      "boot_command": ["e<down><down><end><bs><bs><bs><bs><bs>text ks=/cidata/ks.cfg<leftCtrlOn>x<leftCtrlOff>"],
+      "cd_files": [
+      "{{template_dir}}/http/ks.cfg"
       ],
+      "cd_label": "cidata",
       "boot_wait": "3s",
       "convert_to_template": "true",
       "create_snapshot": "false",
@@ -51,8 +52,24 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'ubuntu' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "{{template_dir}}/../scripts/setup_ubuntu2004.sh"
+      "execute_command": "echo 'packer'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": [
+        "dnf -y update",
+        "dnf -y install python3",
+        "alternatives --set python /usr/bin/python3",
+        "pip3 install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "{{template_dir}}/../../../playbooks/setup-centos.yml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "{{template_dir}}/../scripts/cleanup.sh"
+      ]
     }
   ]
 }
