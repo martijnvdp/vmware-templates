@@ -18,4 +18,5 @@ rm -f /etc/machine-id
 sudo systemctl start ssh
 cloud-init clean -s -l
 # remove cloud init to fix customization by vmware https://kb.vmware.com/s/article/54986
-sudo apt purge cloud-init
+sleep 2m
+sudo apt -y purge cloud-init
