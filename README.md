@@ -9,7 +9,7 @@ with var files examples located in windows\2019
 ```
 powershell -file deploy-scripts\deploy-2019-standard
 powershell -file deploy-scripts\deploy-2019-core
-powershell -file deploy-scripts\deploy-2019-all 
+powershell -file deploy-scripts\deploy-all 
 ```
 
 or manual:  \
