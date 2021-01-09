@@ -24,8 +24,8 @@ packer build -force --var-file templates\ubuntu\20.4\server-efi.variables.json" 
                      templates\ubuntu\20.4\server-efi.json
 ```    
 
-## EFI
-For EFI boot without custom image you need to reboot the vm and press a key manually \
+## EFI windows 2019
+For Windows EFI boot without custom image you need to reboot the vm and press a key manually \
 work around boot delay 70s and the following boot_command : 
 ```
         "boot_wait": "70s",
@@ -48,7 +48,7 @@ working efi boot:
 ```
 ## EFI Ubuntu 20.04 seed from iso created during deployment
 
-for this an iso creator is needed \ for windows for example mkisofs \
+for this an iso creator is needed ,for windows for example mkisofs \
 the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
 
 
