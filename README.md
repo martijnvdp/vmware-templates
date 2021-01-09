@@ -1,6 +1,6 @@
 # Vmware templates with packer
 
-Template automation using packer
+Template automation using packer icm vsphere-iso
 
 ## Getting Started
 
@@ -14,7 +14,14 @@ powershell -file deploy-scripts\deploy-2019-all
 
 or manual:  \
 windows 2019 template:\
-packer build --var-file c:\Users\user\variables_win2019.json win2019.standard.json
+```
+
+packer build -force --var-file templates\Windows\2019\standard.variables.json \
+                     --var-file builders\vsphere-iso\vsphere-iso.variables.json \
+                     -var "vcenter_username=username" \
+                     -var "vcenter_password=password" \
+                     templates\Windows\2019\standard.json
+```    
 
 ## EFI
 For EFI boot without custom image you need to reboot the vm and press a key manually \
@@ -26,7 +33,18 @@ work around boot delay 70s and the following boot_command :
           "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
         ],
 ```
-
+## EFI Ubuntu 20.04
+for ubuntu 20.04 the bootcmds need to be quoted after autoinstall \
+working efi boot:
+```
+"boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=http://{{.HTTPIP}}:{{.HTTPPort}}/\"<enter><wait>",
+        "initrd /casper/initrd<enter><wait>",
+        "boot<enter>"
+      ],
+```
 
 ### Deploy template function
 deploy-template function in \templates\windows\2019\deploy-template.ps1 \
