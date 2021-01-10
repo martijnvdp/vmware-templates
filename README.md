@@ -121,11 +121,8 @@ example:
 ```
 Fix for ubuntu client customization conflict with cloud config:
 https://kb.vmware.com/s/article/54986
+https://docs.vmware.com/en/VMware-Cloud-Assembly/services/Using-and-Managing/GUID-57D5D20B-B613-4BDE-A19F-223719F0BABB.html
 
-last action in deployment
-```
-sudo apt -y purge cloud-init
-```
 ### Prerequisites
 
 Required for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
