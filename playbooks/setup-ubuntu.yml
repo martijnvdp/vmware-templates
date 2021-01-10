@@ -57,6 +57,7 @@
       - tcpdump
       - vim
       - wget
+      - net-tools
     when: ansible_os_family == "Debian"
 
   - name: Install open-vm-tools
