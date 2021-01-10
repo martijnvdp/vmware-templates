@@ -120,7 +120,7 @@ example:
  
 ```
 Fix for ubuntu client customization conflict with cloud config:
-https://kb.vmware.com/s/article/54986
+https://kb.vmware.com/s/article/54986 \n
 https://docs.vmware.com/en/VMware-Cloud-Assembly/services/Using-and-Managing/GUID-57D5D20B-B613-4BDE-A19F-223719F0BABB.html
 
 ### Prerequisites
