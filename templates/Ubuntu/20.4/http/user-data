@@ -35,4 +35,3 @@ autoinstall:
       - curtin in-target --target=/target -- apt-get update
       - curtin in-target --target=/target -- apt-get upgrade --yes
       - curtin in-target --tar get=/target -- apt-get install ansible --yes
-      - curtin in-target --tar get=/target -- sudo rm /etc/netplan/00-installer-config.yaml

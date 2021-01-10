@@ -22,3 +22,4 @@ sleep 2m
 #sudo rm /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg
 sudo apt -y purge cloud-init && sudo apt -y autoremove
 sudo rm -rf /etc/cloud
+sudo rm /etc/netplan/00-installer-config.yaml
