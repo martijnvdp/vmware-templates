@@ -34,4 +34,4 @@ autoinstall:
       - curtin in-target --target=/target -- chmod 440 /etc/sudoers.d/ubuntu
       - curtin in-target --target=/target -- apt-get update
       - curtin in-target --target=/target -- apt-get upgrade --yes
-      - curtin in-target --tar get=/target -- apt-get install ansible --yes
+      - curtin in-target --target=/target -- apt-get install ansible --yes
