@@ -76,6 +76,7 @@
       - tcpdump
       - vim
       - wget
+      - openssh-client
     when: ansible_os_family == "RedHat"
 
   - name: Install open-vm-tools (RedHat)

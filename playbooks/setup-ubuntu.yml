@@ -58,6 +58,7 @@
       - vim
       - wget
       - net-tools
+      - openssh-client
     when: ansible_os_family == "Debian"
 
   - name: Install open-vm-tools
