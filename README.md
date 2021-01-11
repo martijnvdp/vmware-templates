@@ -136,6 +136,10 @@ More than one disk on the same storage adapter gives :Invalid configuration for 
 https://github.com/hashicorp/packer/issues/10430
 
 work around use a storage adapter for each disk
+## Refs
+https://github.com/rgl/packer-provisioner-windows-update/releases \
+https://sourceforge.net/projects/mkisofs-md5/ \
+https://www.packer.io/
 
 ## Authors
 
