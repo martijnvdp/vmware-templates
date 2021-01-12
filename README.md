@@ -94,7 +94,7 @@ static ip or custom wsus settings can be set from the windows deployment scripts
 
 ```
 
-### variable files
+## variable files
 
 To get the checksum value of windows iso's:\
 use powershell get-filehash
@@ -102,7 +102,7 @@ use powershell get-filehash
 To use windows filepath for the iso location use smb://
 smb://someserver/share/windows.iso
 
-### Ubuntu notes
+## Linux notes
 
 packer will start a local webserver this must be accessible by the VM  so you have to open the port in the local firewall
 \
@@ -123,7 +123,44 @@ Fix for ubuntu client customization conflict with cloud config:
 https://kb.vmware.com/s/article/54986 \n
 https://docs.vmware.com/en/VMware-Cloud-Assembly/services/Using-and-Managing/GUID-57D5D20B-B613-4BDE-A19F-223719F0BABB.html
 
-### Prerequisites
+## Linux client customization issues on VMware
+
+Fix for ubuntu client customization conflict with cloud config: \
+https://kb.vmware.com/s/article/54986 \
+https://docs.vmware.com/en/VMware-Cloud-Assembly/services/Using-and-Managing/GUID-57D5D20B-B613-4BDE-A19F-223719F0BABB.html \
+
+example fix in the ubuntu setup script: cleanup.sh \
+scripted the steps from the vmware kb: \
+
+```
+sudo dpkg-reconfigure cloud-init
+sudo sed -i '/users\:/i disable_vmware_customization: true' /etc/cloud/cloud.cfg
+sudo sed -i '/\[Unit\]/a After=dbus.service' /lib/systemd/system/open-vm-tools.service
+sudo sed -i '/users\:/a disable_vmware_customization: true' /etc/cloud/cloud.cfg
+sudo sed -i 's/D \/tmp/\#D \/tmp/' /usr/lib/tmpfiles.d/tmp.config
+sudo sed -i 's/Host \*/aPermitRootLogin yes' /usr/lib/tmpfiles.d/tmp.config
+echo -e "ubuntu\nubuntu|sudo passwd root"
+sudo touch /etc/cloud/cloud-init.disabled
+## start cron script
+sudo cat >/home/ubuntu/re_init.sh <<EOF
+#!/bin/bash
+sudo rm -rf /etc/cloud/cloud-init.disabled
+sudo cloud-init init
+sleep 20
+sudo cloud-init modules --mode config
+sleep 20
+sudo cloud-init modules --mode final
+EOF
+sudo chmod +x /home/ubuntu/re_init.sh
+echo '@reboot ( sleep 90 ; sh /home/ubuntu/re_init.sh )' >> mycron
+sudo crontab mycron
+
+
+
+```
+
+
+## Prerequisites
 
 Required for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
 for the automated installing of windows updates
@@ -131,7 +168,7 @@ for the automated installing of windows updates
 for ubuntu if not using the packer web server but iso an binary for creating the iso is needed:
 for windows for example mkisofs , the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
 
-### Issues
+## Packer Issues
 More than one disk on the same storage adapter gives :Invalid configuration for device '2'
 https://github.com/hashicorp/packer/issues/10430
 
