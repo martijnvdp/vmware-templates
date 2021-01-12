@@ -6,16 +6,13 @@ Param($template_varfile,[pscredential]$credential)
 
 . "$PSScriptRoot\function\publish-template.ps1"
 #####
-$template_file = $PSscriptroot + "\..\templates\ubuntu\20.4\server.json"
-$template_varfile= $PSscriptroot+ "\..\templates\ubuntu\20.4\server.variables.json"
-$builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
+$deploy_params=@{
+    template_file = $PSscriptroot + "\..\templates\ubuntu\20.4\server.json"
+    template_varfile= $PSscriptroot+ "\..\templates\ubuntu\20.4\server.variables.json"
+    Template_os="linux"
+    builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
+    template_path_packer="c:\packer" 
+}
 #####
-if (!(test-path $builder_var_file)){$PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"} 
-
-publish-template `
-    -Template_os "linux" `
-    -Credential $credential `
-    -Template_file $template_file  `
-    -Template_var_file $template_varfile `
-    -Builder_var_file $builder_var_file `
-    -template_path_packer "c:\packer" 
+if (!(test-path $deploy_params.builder_var_file)){$PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"} 
+publish-template @deploy_params -Credential $credential
