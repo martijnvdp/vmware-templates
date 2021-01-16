@@ -8,7 +8,7 @@ Param($template_varfile,[pscredential]$credential)
 #####
 $deploy_params=@{
     template_file = $PSscriptroot + "\..\templates\centos\8\server.json"
-    template_varfile= $PSscriptroot+ "\..\templates\centos\8\server.variables.json"
+    template_var_file= $PSscriptroot+ "\..\templates\centos\8\server.variables.json"
     Template_os="linux"
     builder_var_file= $PSscriptroot + "\..\..\vars\vsphere-iso.variables.json"
     template_path_packer="c:\packer" 
