@@ -57,8 +57,8 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" 
 Set-TimeZone -Name "W. Europe Standard Time"
 
 #ssh
-Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+#Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+#Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
 
 # Install trusted CA certificates
 
