@@ -22,6 +22,6 @@ $deploy_params=@{
     # wsus_server "wsus.server.internal"
     # wsus_group "wsus_target_group"
 }
-#####
+####
 if (!(test-path $deploy_params.builder_var_file)){$PSscriptroot + "\..\builders\vsphere-iso\vsphere-iso.variables.json"} 
 publish-template @deploy_params -Credential $credential  -local_admin_pass $local_admin_pass 
