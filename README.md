@@ -1,111 +1,185 @@
-# Packer Windows Update Provisioner
+# Vmware templates with packer
 
-[![Build status](https://github.com/rgl/packer-provisioner-windows-update/workflows/Build/badge.svg)](https://github.com/rgl/packer-provisioner-windows-update/actions?query=workflow%3ABuild)
-[![Latest version released](https://img.shields.io/chocolatey/v/packer-provisioner-windows-update.svg)](https://chocolatey.org/packages/packer-provisioner-windows-update)
-[![Package downloads count](https://img.shields.io/chocolatey/dt/packer-provisioner-windows-update.svg)](https://chocolatey.org/packages/packer-provisioner-windows-update)
+Template automation using packer icm vsphere-iso
 
-This is a Packer plugin for installing Windows updates (akin to [rgl/vagrant-windows-update](https://github.com/rgl/vagrant-windows-update)).
+## Getting Started
 
-**NB** This was only tested with Packer 1.6.1 on Windows Server 2019, macOS Catalina and Ubuntu 20.04.
-
-# Usage
-
-[Download the binary from the releases page](https://github.com/rgl/packer-provisioner-windows-update/releases)
-and put it in the same directory as your `packer` executable.
-
-Use the provisioner from your packer template file, e.g. like in [rgl/windows-vagrant](https://github.com/rgl/windows-vagrant):
-
-```json
-{
-    "provisioners": [
-        {
-            "type": "windows-update"
-        }
-    ]
-}
+Use the deployment powershell scripts in deploy-scripts so you get asked for credentials 
+with var files examples located in windows\2019
+```
+powershell -file deploy-scripts\deploy-2019-standard
+powershell -file deploy-scripts\deploy-2019-core
+powershell -file deploy-scripts\deploy-centos-8.ps1
+powershell -file deploy-scripts\deploy-ubuntu-20.4.ps1
+powershell -file deploy-scripts\deploy-all 
 ```
 
-Note, the plugin automatically restarts the machine after Windows Updates are applied.  The reboots occur similar to the windows-restart provisioner built into packer where packer is aware that a shutdown is in progress.
-
-## Search Criteria, Filters and Update Limit
-
-You can select which Windows Updates are installed by defining the search criteria, a set of filters, and how many updates are installed at a time.
-
-Normally you would use one of the following settings:
-
-| Name          | `search_criteria`                           | `filters`       |
-|---------------|---------------------------------------------|-----------------|
-| Important     | `AutoSelectOnWebSites=1 and IsInstalled=0`  | `$true`         |
-| Recommended   | `BrowseOnly=0 and IsInstalled=0`            | `$true`         |
-| All           | `IsInstalled=0`                             | `$true`         |
-| Optional Only | `AutoSelectOnWebSites=0 and IsInstalled=0`  | `$_.BrowseOnly` |
-
-**NB** `Recommended` is the default setting.
-
-But you can customize them, e.g.:
-
-```json
-{
-    "provisioners": [
-        {
-            "type": "windows-update",
-            "search_criteria": "IsInstalled=0",
-            "filters": [
-                "exclude:$_.Title -like '*Preview*'",
-                "include:$true"
-            ],
-            "update_limit": 25
-        }
-    ]
-}
+or manual:  \
+(for windows its better to use the deployment script due the autounattend.xml customization) \
+example ubuntu 20.04 template:
 ```
 
-**NB** For more information about the search criteria see the [IUpdateSearcher::Search method](https://docs.microsoft.com/en-us/windows/desktop/api/wuapi/nf-wuapi-iupdatesearcher-search) documentation and the [xWindowsUpdateAgent DSC resource source](https://github.com/PowerShell/xWindowsUpdate/blob/dev/DscResources/MSFT_xWindowsUpdateAgent/MSFT_xWindowsUpdateAgent.psm1).
+packer build -force --var-file templates\ubuntu\20.4\server-efi.variables.json" \
+                     --var-file builders\vsphere-iso\vsphere-iso.variables.json \
+                     -var "vcenter_username=username" \
+                     -var "vcenter_password=password" \
+                     templates\ubuntu\20.4\server-efi.json
+```    
 
-**NB** If the `update_limit` attribute is not declared, it defaults to `1000`.
-
-The general filter syntax is:
-
-    ACTION:EXPRESSION
-
-`ACTION` is a string that can have one of the following values:
-
-| action    | description                                                  |
-| --------- | ------------------------------------------------------------ |
-| `include` | includes the update when the expression evaluates to `$true` |
-| `exclude` | excludes the update when the expression evaluates to `$true` |
-
-**NB** If no `ACTION` evaluates to `$true` the update will **NOT** be installed.
-
-`EXPRESSION` is a PowerShell expression. When it returns `$true`, the
-`ACTION` is executed and no further filters are evaluated.
-
-Inside an expression, the Windows Update [IUpdate interface](https://msdn.microsoft.com/en-us/library/windows/desktop/aa386099(v=vs.85).aspx) can be referenced by the `$_` variable.
-
-# Development
-
-Build:
-
-```bash
-make
+## EFI windows 2019
+For Windows EFI boot without custom image you need to reboot the vm and press a key manually \
+work around boot delay 70s and the following boot_command : 
 ```
-
-Configure packer with the path to this provisioner by adding something like the
-following snippet to your `~/.packerconfig` (or `%APPDATA%/packer.config`):
-
-```json
-{
-    "provisioners": {
-        "windows-update": "/home/rgl/Projects/packer-provisioner-windows-update/packer-provisioner-windows-update"
-    }
-}
+        "boot_wait": "70s",
+        "boot_command": [
+          "<tab><wait><enter><wait>",
+          "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
+        ],
 ```
+## EFI Ubuntu 20.04 seed from packer http server
+for ubuntu 20.04 the bootcmds need to be quoted after autoinstall \
+working efi boot:
+```
+"boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "linux /casper/vmlinuz --- autoinstall ds=\"nocloud-net;seedfrom=http://{{.HTTPIP}}:{{.HTTPPort}}/\"<enter><wait>",
+        "initrd /casper/initrd<enter><wait>",
+        "boot<enter>"
+      ],
+```
+## EFI Ubuntu 20.04 seed from iso created during deployment
 
-Or install into `$HOME/.packer.d/plugins` with:
+for this an iso creator is needed ,for windows for example mkisofs \
+the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
+
 
 ```
-make install
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "linux /casper/vmlinuz --- autoinstall ds=nocloud;seedfrom=/cidata/",
+        "<enter><wait>",
+        "initrd /casper/initrd<enter><wait>",
+        "boot<enter>"
+      ],
+      "cd_files": [
+      "{{template_dir}}/http/meta-data",
+      "{{template_dir}}/http/user-data"
+      ],
+      "cd_label": "cidata",
 ```
 
-If you are having problems running `packer` set the `PACKER_LOG=1` environment
-variable to see more information.
+## EFI Centos 8 kickstart from iso created during deployment
+
+need to specify cdrom device:
+
+```
+"boot_command": ["e<down><down><end><bs><bs><bs><bs><bs>text ks=cdrom:/dev/sr1:/ks.cfg<leftCtrlOn>x<leftCtrlOff>"],
+      "cd_files": [
+      "{{template_dir}}/http/ks.cfg"
+      ],
+      "cd_label": "cidata",
+      "boot_wait": "3s",
+```      
+## Static ip or custom wsus server settings
+static ip or custom wsus settings can be set from the windows deployment scripts
+```
+-static_ip "1.1.4.2" `#optional static ip
+-default_gw "1.1.4.1" #optional static ip
+-dns1 "8.8.8.8" #optional static ip
+-dns1 "8.8.4.4" #optional static ip
+-wsus_server "internal_wsus_server" #optional wsus server
+-wsus_group "wsus_target_group" #optional wsus target group
+
+```
+
+## variable files
+
+To get the checksum value of windows iso's:\
+use powershell get-filehash
+
+To use windows filepath for the iso location use smb://
+smb://someserver/share/windows.iso
+
+## Linux notes
+
+packer will start a local webserver this must be accessible by the VM  so you have to open the port in the local firewall
+\
+Or use an iso with label cidata
+example:
+
+```
+"cd_files": [
+  "{{template_dir}}/http/meta-data",
+  "{{template_dir}}/http/user-data"
+],
+"cd_label": "cidata",
+"boot_command": [
+ "ds=nocloud-net;s=/cidata/",
+ 
+```
+Fix for ubuntu client customization conflict with cloud config:
+https://kb.vmware.com/s/article/54986 \n
+https://docs.vmware.com/en/VMware-Cloud-Assembly/services/Using-and-Managing/GUID-57D5D20B-B613-4BDE-A19F-223719F0BABB.html
+
+## Linux client customization issues on VMware
+
+Fix for ubuntu client customization conflict with cloud config: \
+https://kb.vmware.com/s/article/54986 \
+https://docs.vmware.com/en/VMware-Cloud-Assembly/services/Using-and-Managing/GUID-57D5D20B-B613-4BDE-A19F-223719F0BABB.html \
+
+example fix in the ubuntu setup script: cleanup.sh \
+scripted the steps from the vmware kb: \
+
+```
+sudo dpkg-reconfigure cloud-init
+sudo sed -i '/users\:/i disable_vmware_customization: true' /etc/cloud/cloud.cfg
+sudo sed -i '/\[Unit\]/a After=dbus.service' /lib/systemd/system/open-vm-tools.service
+sudo sed -i '/users\:/a disable_vmware_customization: true' /etc/cloud/cloud.cfg
+sudo sed -i 's/D \/tmp/\#D \/tmp/' /usr/lib/tmpfiles.d/tmp.config
+sudo sed -i 's/Host \*/aPermitRootLogin yes' /usr/lib/tmpfiles.d/tmp.config
+echo -e "ubuntu\nubuntu|sudo passwd root"
+sudo touch /etc/cloud/cloud-init.disabled
+## start cron script
+sudo cat >/home/ubuntu/re_init.sh <<EOF
+#!/bin/bash
+sudo rm -rf /etc/cloud/cloud-init.disabled
+sudo cloud-init init
+sleep 20
+sudo cloud-init modules --mode config
+sleep 20
+sudo cloud-init modules --mode final
+EOF
+sudo chmod +x /home/ubuntu/re_init.sh
+echo '@reboot ( sleep 90 ; sh /home/ubuntu/re_init.sh )' >> mycron
+sudo crontab mycron
+
+
+
+```
+
+
+## Prerequisites
+
+Required for windows: https://github.com/rgl/packer-provisioner-windows-update/releases
+for the automated installing of windows updates
+
+for ubuntu if not using the packer web server but iso an binary for creating the iso is needed:
+for windows for example mkisofs , the supported commands are: xorriso, mkisofs, hdiutil, oscdimg)
+
+## Packer Issues
+More than one disk on the same storage adapter gives :Invalid configuration for device '2'
+https://github.com/hashicorp/packer/issues/10430
+
+work around use a storage adapter for each disk
+## Refs
+https://github.com/rgl/packer-provisioner-windows-update/releases \
+https://sourceforge.net/projects/mkisofs-md5/ \
+https://www.packer.io/
+
+## Authors
+
+* **M van der Ploeg** - *Initial work* - [martijn](https://github.com/martijnxd)
+
+See also the list of [contributors](https://github.com/martijnxd/vmware-templates/contributors) who participated in this project.
