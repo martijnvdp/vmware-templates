@@ -5,9 +5,11 @@
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
       "firmware": "efi-secure",
-      "boot_command": ["e<down><down><end><bs><bs><bs><bs><bs>text ks=cdrom:/dev/sr1:/ks.cfg<leftCtrlOn>x<leftCtrlOff>"],
+      "boot_command": [
+        "e<down><down><end><bs><bs><bs><bs><bs>text ks=cdrom:/dev/sr1:/ks.cfg<leftCtrlOn>x<leftCtrlOff>"
+      ],
       "cd_files": [
-      "{{template_dir}}/http/ks.cfg"
+        "{{template_dir}}/http/ks.cfg"
       ],
       "cd_label": "cidata",
       "boot_wait": "3s",
