@@ -14,8 +14,8 @@
         "boot<enter>"
       ],
       "cd_files": [
-      "{{template_dir}}/http/meta-data",
-      "{{template_dir}}/http/user-data"
+        "{{template_dir}}/http/meta-data",
+        "{{template_dir}}/http/user-data"
       ],
       "cd_label": "cidata",
       "boot_wait": "3s",
@@ -68,5 +68,5 @@
         "{{template_dir}}/../scripts/cleanup.sh"
       ]
     }
- ]
+  ]
 }
