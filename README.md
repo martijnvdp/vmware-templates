@@ -4,6 +4,11 @@ Template automation using packer icm vsphere-iso
 
 ## Getting Started
 
+setup script to install packer and other requirments:
+```
+powershell -file setup.ps1
+```
+
 Use the deployment powershell scripts in deploy-scripts so you get asked for credentials 
 with var files examples located in windows\2019
 ```
