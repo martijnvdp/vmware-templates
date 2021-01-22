@@ -4,7 +4,7 @@ Template automation using packer icm vsphere-iso
 
 ## Getting Started
 
-setup script to install packer and other requirments:
+setup script to install packer and other requirements:
 ```
 powershell -file setup.ps1
 ```
