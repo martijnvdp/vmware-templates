@@ -7,8 +7,8 @@ Param($template_varfile, [pscredential]$credential)
 . "$PSScriptRoot/function/publish-template.ps1"
 #####
 $deploy_params = @{
-    template_file        = $PSscriptroot + "/../templates/centos/8/server.json"
-    template_var_file    = $PSscriptroot + "/../templates/centos/8/server.variables.json"
+    template_file        = $PSscriptroot + "/../templates/Centos/8/server.json"
+    template_var_file    = $PSscriptroot + "/../templates/Centos/8/server.variables.json"
     Template_os          = "linux"
     builder_var_file     = $PSscriptroot + "/../../vars/vsphere-iso.variables.json"
     template_path_packer = "c:\packer" 
