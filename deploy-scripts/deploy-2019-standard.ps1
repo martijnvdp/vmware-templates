@@ -7,8 +7,8 @@ Param([pscredential]$credential, $local_admin_pass)
 . "$PSScriptRoot/function/publish-template.ps1"
 #####
 $deploy_params = @{
-    template_file        = $PSscriptroot + "/../templates/Windows/2019/standard.json"
-    template_var_file    = $PSscriptroot + "/../templates/Windows/2019/standard.variables.json"
+    template_file        = $PSscriptroot + "/../templates/Windows/2019/Standard.json"
+    template_var_file    = $PSscriptroot + "/../templates/Windows/2019/Standard.variables.json"
     builder_var_file     = $PSscriptroot + "/../../vars/vsphere-iso.variables.json"
     template_unattended  = $PSscriptroot + "/../templates/windows/2019/autounattend.xml"
     template_edition     = "standard"
