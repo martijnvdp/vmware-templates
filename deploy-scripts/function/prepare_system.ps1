@@ -26,7 +26,9 @@ function prepsystem {
             sudo apt-get update && sudo apt-get install packer -y
             $w = which packer
             wget $lnx_url_windowsupdates -P ./
-            tar -xf $lnx_url_windowsupdates.Substring($lnx_url_windowsupdates.LastIndexOf("/") + 1) -C $w.substring(0, $w.length - 6)
+            sudo tar -xf $lnx_url_windowsupdates.Substring($lnx_url_windowsupdates.LastIndexOf("/") + 1) -C $w.substring(0, $w.length - 6)
+            sudo chmod +x "$($w.substring(0, $w.length - 6))packer-provisioner-windows-update"
+           
         }
         catch { }
         if ($error.count -gt 0) {
@@ -34,7 +36,9 @@ function prepsystem {
             sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
             $w = which packer
             wget $lnx_url_windowsupdates -P ./
-            tar -xf $lnx_url_windowsupdates.Substring($lnx_url_windowsupdates.LastIndexOf("/") + 1) -C $w.substring(0, $w.length - 6)
+            sudo tar -xf $lnx_url_windowsupdates.Substring($lnx_url_windowsupdates.LastIndexOf("/") + 1) -C $w.substring(0, $w.length - 6)
+            Write-Output $w/$lnx_url_windowsupdates.Substring($lnx_url_windowsupdates.LastIndexOf("/") + 1) 
+            sudo chmod +x "$($w.substring(0, $w.length - 6))packer-provisioner-windows-update"
         }
 
     }
