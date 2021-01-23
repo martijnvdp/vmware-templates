@@ -7,8 +7,8 @@ Param([pscredential]$credential, $local_admin_pass)
 . "$PSScriptRoot/function/publish-template.ps1"
 #####
 $deploy_params = @{
-    template_file        = $PSscriptroot + "/../templates/Windows/2019/standard-rdp-host.json"
-    template_var_file    = $PSscriptroot + "/../templates/Windows/2019/standard-rdp-host.variables.json"
+    template_file        = $PSscriptroot + "/../templates/Windows/2019/Standard-rdp-host.json"
+    template_var_file    = $PSscriptroot + "/../templates/Windows/2019/Standard-rdp-host.variables.json"
     builder_var_file     = $PSscriptroot + "/../../vars/vsphere-iso.variables.json"
     template_unattended  = $PSscriptroot + "/../templates/Windows/2019/autounattend.xml"
     template_edition     = "standard"
