@@ -1,7 +1,9 @@
 # pip install -U selenium
+from pathlib import Path
+home = str(Path.home())
 # https://chromedriver.storage.googleapis.com/index.html?path=88.0.4324.96/
 from selenium import webdriver
-chromedriver = "/usr/sbin/chromedriver"
+chromedriver = home + "/chromedriver"
 driver = webdriver.Chrome(chromedriver)
 driver.get('https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019?filetype=ISO')
 download = '//*[@id="btnRegisterWithFileTypes"]'

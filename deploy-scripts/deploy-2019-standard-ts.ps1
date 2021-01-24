@@ -11,6 +11,8 @@ $deploy_params = @{
     template_var_file    = $PSscriptroot + "/../templates/Windows/2019/Standard-rdp-host.variables.json"
     builder_var_file     = $PSscriptroot + "/../../vars/vsphere-iso.variables.json"
     template_unattended  = $PSscriptroot + "/../templates/Windows/2019/autounattend.xml"
+    iso_url              = "file://$home/Downloads/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
+    iso_checksum         = "549BCA46C055157291BE6C22A3AAAED8330E78EF4382C99EE82C896426A1CEE1"
     template_edition     = "standard"
     Template_os          = "windows"
     template_path_packer = "c:\packer" 
@@ -23,5 +25,6 @@ $deploy_params = @{
     # wsus_group "wsus_target_group"
 }
 #####
+if ($Islinux -and !(test-path "/$($w.trim("file://"))")) {python3 $PSscriptroot/deploy-scripts/function/autodownload-windows2019eval.py}
 if (!(test-path $deploy_params.builder_var_file)) { $deploy_params.builder_var_file = $PSscriptroot + "/../builders/vsphere-iso/vsphere-iso.variables.json" } 
 publish-template @deploy_params -Credential $credential -local_admin_pass $local_admin_pass 

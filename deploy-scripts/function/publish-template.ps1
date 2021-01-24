@@ -50,6 +50,8 @@ function publish-template {
         [Parameter(mandatory = $true)]$Template_file,
         [Parameter(mandatory = $true)]$Template_var_file,
         [Parameter(mandatory = $true)]$Builder_var_file,
+        $iso_url,
+        $iso_checksum,
         $template_edition,
         $template_unattended,
         [Parameter(mandatory = $true)]$template_path_packer,
@@ -67,7 +69,7 @@ function publish-template {
     if ($Template_os -eq "windows") { 
         if (!$local_admin_pass) { $local_admin_pass = Read-Host "Enter local administrator password" }
         Update-UnattendXml -path $template_unattended -password $local_admin_pass -edition $template_edition -static_ip $static_ip -default_gw $default_gw -wsus_server $wsus_server -wsus_group $wsus_group
-        packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$local_admin_pass" $Template_file
+        packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "iso_checksum=$($iso_checksum)" -var "iso_url=$($iso_url)"-var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$local_admin_pass" $Template_file
         Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
     }
     if ($Template_os -eq "linux") {
