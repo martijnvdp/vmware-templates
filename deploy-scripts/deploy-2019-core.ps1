@@ -25,6 +25,6 @@ $deploy_params = @{
     # wsus_group "wsus_target_group"
 }
 #####
-if ($Islinux -and !(test-path "/$($w.trim("file://"))")) {python3 $PSscriptroot/deploy-scripts/function/autodownload-windows2019eval.py}
+#if ($Islinux -and !(test-path "/$($iso_url.trim("file://"))")) {python3 $PSscriptroot/deploy-scripts/function/autodownload-windows2019eval.py}
 if (!(test-path $deploy_params.builder_var_file)) { $deploy_params.builder_var_file = $PSscriptroot + "/../builders/vsphere-iso/vsphere-iso.variables.json" } 
 publish-template @deploy_params -Credential $credential  -local_admin_pass $local_admin_pass 
