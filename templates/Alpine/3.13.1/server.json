@@ -31,7 +31,7 @@
         "adduser {{user `ssh_username`}}<enter>",
         "{{user `ssh_password`}}<enter>",
         "{{user `ssh_password`}}<enter>",
-        "<wait180>poweroff<enter>"
+        "<wait240>poweroff<enter>"
       ], 
       "cd_files": [
           "{{template_dir}}/http/meta-data",
