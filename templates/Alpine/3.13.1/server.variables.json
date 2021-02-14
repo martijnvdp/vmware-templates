@@ -10,5 +10,5 @@
   "iso_checksum_type": "sha256",
   "iso_checksum": "4dff2a8386a32d83b3ce34137fe991073617b3c920b2ed069e0e6e55fea96cff",
   "ssh_username": "alpine",
-  "ssh_password": "alpine"
+  "ssh_password": "Packer2021"
 }

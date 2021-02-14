@@ -26,7 +26,12 @@
         "apk add open-vm-tools-guestinfo<enter><wait>",
         "apk add open-vm-tools-deploypkg<enter><wait>",
         "rc-update add open-vm-tools boot<enter><wait>",
-        "rc-service open-vm-tools start<enter><wait>"
+        "rc-service open-vm-tools start<enter><wait>",
+        "apk add su-exec<enter><wait>",
+        "adduser {{user `ssh_username`}}<enter>",
+        "{{user `ssh_password`}}<enter>",
+        "{{user `ssh_password`}}<enter>",
+        "<wait240>poweroff<enter>"
       ], 
       "cd_files": [
           "{{template_dir}}/http/meta-data",
@@ -53,7 +58,7 @@
       ],
       "notes": "{{user `vm-notes`}}\nDefault SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
       "password": "{{user `vcenter_password`}}",
-      "shutdown_command": "echo 'alpine'|sudo -S shutdown -P now",
+      "shutdown_command": "echo {{user `ssh_password`}}|su root halt -p",
       "ssh_password": "{{user `ssh_password`}}",
       "ssh_timeout": "40m",
       "ssh_handshake_attempts": "100000",
