@@ -4,13 +4,35 @@
       "CPUs": "{{user `vm-cpu-num`}}",
       "RAM": "{{user `vm-mem-size`}}",
       "RAM_reserve_all": true,
-      "firmware": "efi-secure",
-      "boot_command": [
-        "e<down><down><end><bs><bs><bs><bs><bs>text ks=cdrom:/dev/sr1:/ks.cfg<leftCtrlOn>x<leftCtrlOff>"
-      ],
+      "firmware": "efi",
+      "boot_command":[ "<wait30>",
+        "root<enter><wait>",  
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait20>",
+        "setup-alpine<enter>",
+        "us <enter>",
+        "us <enter>",
+        "{{user `host_name`}} <enter><enter>",
+        "dhcp <enter><enter><enter>",    
+        "{{user `ssh_password`}}<enter>",
+        "{{user `ssh_password`}}<enter>",
+        "<enter><enter><enter><wait30>",
+        "<enter><enter><wait>",
+        "sda<enter>",
+        "lvm<enter>",
+        "sys<enter><wait>y<enter><wait60>",
+        "wget http://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/open-vm-tools-11.2.0-r0.apk <enter><wait>",
+        "apk update<enter><wait>",
+        "apk add open-vm-tools<enter><wait>",
+        "apk add open-vm-tools-guestinfo<enter><wait>",
+        "apk add open-vm-tools-deploypkg<enter><wait>",
+        "apk add --upgrade open-vm-tools-11.2.0-r0.apk --force-non-repository<enter><wait>",
+        "rc-update add open-vm-tools boot<enter><wait>",
+        "reboot<enter><wait>"
+      ], 
       "cd_files": [
-        "{{template_dir}}/http/ks.cfg"
-      ],
+          "{{template_dir}}/http/meta-data",
+          "{{template_dir}}/http/user-data"
+       ],
       "cd_label": "cidata",
       "boot_wait": "3s",
       "convert_to_template": "true",
@@ -19,12 +41,11 @@
       "datastore": "{{user `vcenter_datastore`}}",
       "disk_controller_type": "pvscsi",
       "folder": "{{user `vcenter_folder`}}",
-      "guest_os_type": "centos8_64Guest",
+      "guest_os_type": "other3xLinux64Guest",
       "cluster": "{{user `vcenter_cluster`}}",
       "insecure_connection": "true",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
       "iso_url": "{{user `iso_urls`}}",
-      "name": "{{user `iso_target_name`}}",
       "network_adapters": [
         {
           "network": "{{user `vcenter_network`}}",
@@ -33,7 +54,7 @@
       ],
       "notes": "{{user `vm-notes`}}\nDefault SSH User: {{user `ssh_username`}}\nDefault SSH Pass: {{user `ssh_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
       "password": "{{user `vcenter_password`}}",
-      "shutdown_command": "echo 'ubuntu'|sudo -S shutdown -P now",
+      "shutdown_command": "echo 'alpine'|sudo -S shutdown -P now",
       "ssh_password": "{{user `ssh_password`}}",
       "ssh_timeout": "40m",
       "ssh_handshake_attempts": "100000",
@@ -49,29 +70,5 @@
       "vcenter_server": "{{user `vcenter_server`}}",
       "vm_name": "{{user `vm_name`}}"
     }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "echo 'packer'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "inline": [
-        "dnf -y update",
-        "sudo dnf makecache",
-        "dnf -y install epel-release",
-        "sudo dnf makecache",
-        "dnf -y install ansible"
-      ]
-    },
-    {
-      "type": "ansible-local",
-      "playbook_file": "{{template_dir}}/../../../playbooks/setup-centos.yml"
-    },
-    {
-      "type": "shell",
-      "execute_command": "echo 'packer'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "scripts": [
-        "{{template_dir}}/../scripts/cleanup.sh"
-      ]
-    }
   ]
-}
+ }
