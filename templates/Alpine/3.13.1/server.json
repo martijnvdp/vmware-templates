@@ -20,14 +20,14 @@
         "sda<enter>",
         "lvm<enter>",
         "sys<enter><wait>y<enter><wait60>",
-        "wget http://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/open-vm-tools-11.2.0-r0.apk",
-        "apk update",
-        "apk add open-vm-tools",
-        "apk add open-vm-tools-guestinfo",
-        "apk add open-vm-tools-deploypkg",
-        "apk add --upgrade open-vm-tools-11.2.0-r0.apk --force-non-repository",
-        "rc-update add open-vm-tools boot",
-        "reboot"
+        "wget http://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/open-vm-tools-11.2.0-r0.apk <enter><wait>",
+        "apk update<enter><wait>",
+        "apk add open-vm-tools<enter><wait>",
+        "apk add open-vm-tools-guestinfo<enter><wait>",
+        "apk add open-vm-tools-deploypkg<enter><wait>",
+        "apk add --upgrade open-vm-tools-11.2.0-r0.apk --force-non-repository<enter><wait>",
+        "rc-update add open-vm-tools boot<enter><wait>",
+        "reboot<enter><wait>"
       ], 
       "cd_files": [
           "{{template_dir}}/http/meta-data",
