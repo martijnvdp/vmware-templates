@@ -88,15 +88,18 @@ need to specify cdrom device:
       "boot_wait": "3s",
 ```      
 ## Static ip or custom wsus server settings
-static ip or custom wsus settings can be set from the windows deployment scripts
+static ip or custom wsus settings can be set in the packer var file
 ```
--static_ip "1.1.4.2" `#optional static ip
--default_gw "1.1.4.1" #optional static ip
--dns1 "8.8.8.8" #optional static ip
--dns1 "8.8.4.4" #optional static ip
--wsus_server "internal_wsus_server" #optional wsus server
--wsus_group "wsus_target_group" #optional wsus target group
-
+  "os_edition": "standard",
+  "os_fullname": "name",
+  "os_organization": "organization",
+  "os_productkey": "",
+  "os_static_ip": "",
+  "os_default_gw": "",
+  "os_dns1": "8.8.8.8",
+  "os_dns2": "",
+  "os_wsus_server": "https://wsus.example.con",
+  "os_wsus_group": "wsus group",
 ```
 
 ## variable files
