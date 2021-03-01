@@ -11,5 +11,6 @@
     "ssh_username": "ubuntu",
     "ssh_password": "ubuntu",
     "packer_ip_for_http_server": "",
-    "packer_ip_port_for_http_server": "1234"
+    "packer_ip_port_for_http_server": "1234",
+    "os_type": "linux"
 }

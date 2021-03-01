@@ -9,9 +9,8 @@ Param($template_varfile, [pscredential]$credential)
 $deploy_params = @{
     template_file        = $PSscriptroot + "/../templates/Alpine/3.13.1/server.json"
     template_var_file    = $PSscriptroot + "/../templates/Alpine/3.13.1/server.variables.json"
-    Template_os          = "linux"
     builder_var_file     = $PSscriptroot + "/../../vars/vsphere-iso.variables.json"
-    template_path_packer = "c:\packer" 
+    path_packer          = "c:/packer"
 }
 #####
 if (!(test-path $deploy_params.builder_var_file)) { $deploy_params.builder_var_file = $PSscriptroot + "/../builders/vsphere-iso/vsphere-iso.variables.json" } 
