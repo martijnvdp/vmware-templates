@@ -1,14 +1,10 @@
 function Update-UnattendXml {
+    # update autounattended.xml for windows installation with custom vars
     param (
-        [string]$Path,
+        [string]$autounattend,
         [string]$Password,
-        $static_ip,
-        $default_gw,
-        $wsus_server,
-        $wsus_group,
-        $dns1 = "8.8.8.8",
-        $dns2 = "8.8.4.4",
-        [Parameter(mandatory = $true)][validateset("core", "standard")][string]$Edition
+        $packervars,
+        [switch]$reset
     )
     $editions = @{
         core     = "Windows Server 2019 SERVERSTANDARDCORE"
@@ -16,11 +12,11 @@ function Update-UnattendXml {
     }
     $ErrorActionPreference = 'Stop'
     try {
-        $ResolvedPath = (Resolve-Path -Path $Path).Path
+        $ResolvedPath = (Resolve-Path -Path $autounattend).Path
         [xml]$UnattendXml = Get-Content -Path $ResolvedPath
         $AdminPW = $UnattendXml.unattend.settings.component.useraccounts.administratorpassword
         $ALAdminPW = $UnattendXml.unattend.settings.component.autologon.password
-        $UnattendXml.unattend.settings.component.imageinstall.osimage.installfrom.metadata.value = $editions.$edition
+        # decode [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($Test))
         if ($AdminPW.PlainText -eq 'false') {
             $PlainText = '{0}AdministratorPassword' -f $Password
             $AdminPW.Value = [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($PlainText))
@@ -30,47 +26,51 @@ function Update-UnattendXml {
             $AdminPW.Value = $Password
             $ALAdminPW.Value = $Password
         }
-        #static ip
-        if ($static_ip) { $params = $params + " -IP `"$static_ip`" -GW `"$default_gw`" -DNS1 `"$dns1`" -DNS2 `"$dns2`"" }
-        #wsus server
-        if ($wsus_server) { $params = $params + " -wsusserver `"$wsus_server`" -wsusgroup `"$wsus_group`"" }
-        #set script params
-        foreach ($item in $UnattendXml.unattend.settings.component.firstlogoncommands.SynchronousCommand | where-object { $_.commandline -like "*config1.ps1*" }) {
-            $item.commandline = "cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\config1.ps1 $params"
+        foreach ($item in $UnattendXml.unattend.settings.component.firstlogoncommands.SynchronousCommand | where-object { $_.commandline -like "*01_init.ps1*" }) {
+            $item.commandline = 'cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\01_init.ps1 -psvarfile "a:\'+$packervars.os_psvarfile+'"'
         }
+        $UnattendXml.unattend.settings.component.imageinstall.osimage.installfrom.metadata.value = $editions.($packervars.os_edition)
+        if ($packervars.os_productkey){$UnattendXml.unattend.settings.component[1].userdata.productkey.key = $packervars.os_productkey}
+        if ($packervars.os_fullname){$UnattendXml.unattend.settings.component[1].userdata.fullname = $packervars.os_fullname}
+        if ($packervars.os_organization){$UnattendXml.unattend.settings.component[1].userdata.organization = $packervars.os_organization}
+        if ($packervars.vm_name){$UnattendXml.unattend.settings.component[2].computername = $packervars.vm_name}
+        
         $UnattendXml.Save($ResolvedPath)
     }
     catch {
         $_.Exception.Message
     }
 }
+
 function publish-template {
     param(
-        [Parameter(mandatory = $true)]$Template_os,
         [Parameter(mandatory = $true)]$Template_file,
         [Parameter(mandatory = $true)]$Template_var_file,
         [Parameter(mandatory = $true)]$Builder_var_file,
-        $iso_url,
-        $iso_checksum,
-        $template_edition,
-        $template_unattended,
-        [Parameter(mandatory = $true)]$template_path_packer,
-        $static_ip,
-        $default_gw,
-        $dns1,
-        $dns2,
-        $wsus_server,
-        $wsus_group,
+        [Parameter(mandatory = $true)]$path_packer,
+        [Parameter(mandatory = $true)]$template_path,
+        [string]$autounattend_file,
         [pscredential]$credential,
         [string]$local_admin_pass
     )
-    if ($env:path -notlike "*$template_path_packer*") { $env:path += ";$template_path_packer" }
+    $packervars = Get-Content -Path $Template_var_file | ConvertFrom-Json
+    $autounattend="$template_path\autounattend.xml"
+    #copy var file 
+    Copy-Item -Path $Template_var_file -Destination ($template_path+"/"+$packervars.os_psvarfile)
+    if ($env:path -notlike "*$path_packer*") { $env:path += ";$path_packer" }
     if (!$credential) { $credential = get-credential }
-    if ($Template_os -eq "windows") { 
+    if ($packervars.os_type -eq "windows") { 
+        # copy autounattend.xml
+        copy-item -path $autounattend_file -Destination $autounattend
+        # enter local asmin password for os
         if (!$local_admin_pass) { $local_admin_pass = Read-Host "Enter local administrator password" }
-        Update-UnattendXml -path $template_unattended -password $local_admin_pass -edition $template_edition -static_ip $static_ip -default_gw $default_gw -wsus_server $wsus_server -wsus_group $wsus_group
-        packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "iso_checksum=$($iso_checksum)" -var "iso_url=$($iso_url)"-var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "winadmin-password=$local_admin_pass" $Template_file
-        Update-UnattendXml -path $template_unattended -password "password" -edition $template_edition -static_ip "0.0.0.0" -default_gw "0.0.0.0"
+        # update autounattend file
+        Update-UnattendXml -autounattend $autounattend -password $local_admin_pass -packervars $packervars
+        # start packer build
+        packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)"  -var "os_admin_password=$local_admin_pass" $Template_file
+        # clean up
+        remove-item -path ($template_path+"/"+$packervars.os_psvarfile) 
+        remove-item -path $autounattend
     }
     if ($Template_os -eq "linux") {
         packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)" $Template_file   

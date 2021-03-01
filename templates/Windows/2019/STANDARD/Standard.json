@@ -1,0 +1,121 @@
+{
+  "sensitive-variables": ["vsphere_password", "os_admin_password"],  
+  "builders": [
+    {
+      "type": "vsphere-iso",
+      "vcenter_server": "{{user `vcenter_server`}}",
+      "username": "{{user `vcenter_username`}}",
+      "password": "{{user `vcenter_password`}}",
+      "insecure_connection": "true",
+      "datacenter": "{{user `vcenter_datacenter`}}",
+      "cluster": "{{user `vcenter_cluster`}}",
+      "datastore": "{{user `vcenter_datastore`}}",
+      "folder": "{{user `vcenter_folder`}}",
+      "communicator": "winrm",
+      "winrm_username": "{{user `os_admin_username`}}",
+      "winrm_password": "{{user `os_admin_password`}}",
+      "convert_to_template": "true",
+      "vm_name": "{{user `vm_name`}}",
+      "notes": "{{user `vm_notes`}}\nDefault User: {{user os_admin_username`}}\nDefault Pass: {{user `os_admin_password`}}\nBuilt by Packer @ {{isotime \"2006-01-02 03:04\"}}.",
+      "guest_os_type": "windows9Server64Guest",
+      "CPUs": "{{user `vm_cpu_num`}}",
+      "RAM": "{{user `vm_mem_size`}}",
+      "RAM_reserve_all": true,
+      "firmware": "efi-secure",
+      "boot_wait": "70s",
+      "boot_command": [
+        "<tab><wait><enter><wait>",
+        "a<wait>a<wait>a<wait>a<wait>a<wait>a<wait>"
+      ],
+      "configuration_parameters" : {
+        "remotedisplay.maxconnections":"2",
+        "RemoteDisplay.vnc.enabled":"false",
+        "sched.mem.pshare.salt":"false",
+        "isolation.tools.ghi.autologon.disable":"true",
+        "isolation.bios.bbs.disable": "true",
+        "isolation.tools.getCreds.disable": "true",
+        "isolation.tools.ghi.launchmenu.change": "true",
+        "isolation.tools.memSchedFakeSampleStats.disable": "true",
+        "isolation.tools.ghi.protocolhandler.info.disable": "true",
+        "isolation.ghi.host.shellAction.disable": "true",
+        "isolation.tools.unity.taskbar.disable": "true",
+        "isolation.tools.dispTopoRequest.disable": "true",
+        "isolation.tools.trashFolderState.disable": "true",
+        "isolation.tools.ghi.trayicon.disable": "true",
+        "isolation.tools.unity.disable": "true",
+        "isolation.tools.unityActive.disable": "true",
+        "isolation.tools.unityInterlockOperation.disable": "true",
+        "isolation.tools.unity.push.update.disable": "true",
+        "isolation.tools.vmxDnDVersionGet.disable": "true",
+        "isolation.tools.guestDnDVersionSet.disable": "true",
+        "isolation.tools.unity.windowContents.disable": "true",
+        "isolation.tools.hgfsServerSet.disable": "true",
+        "isolation.tools.autoInstall.disable": "false",
+        "isolation.tools.diskShrink.disable": "true",
+        "isolation.tools.diskWiper.disable": "true",
+        "isolation.tools.vixMessage.disable": "true",
+        "tools.guestlib.enableHostInfo": "false",
+        "isolation.tools.copy.disable": "true",
+        "isolation.tools.dnd.disable": "true",
+        "isolation.tools.setGUIOptions.enable": "false",
+        "isolation.tools.paste.disable": "true",
+        "tools.setInfo.sizeLimit": "1048576",
+        "isolation.device.connectable.disable": "true",
+        "isolation.device.edit.disable": "true",
+        "isolation.monitor.control.disable": "true",
+        "logging": "false",
+        "log.rotatesize": "1024000",
+        "log.keepold": "9"
+      },
+      "tools_upgrade_policy": true,
+      "cdrom_type": "sata",
+      "disk_controller_type": "lsilogic-sas",
+      "network_adapters": [
+      {
+          "network": "{{user `vcenter_network`}}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "storage": [
+        {
+          "disk_size": "{{user `vm_disk_size`}}",
+          "disk_thin_provisioned": true,
+          "disk_controller_index": "0"
+        }
+      ],
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_paths": [
+        "[] /vmimages/tools-isoimages/windows.iso"
+      ],
+      "floppy_files": [
+        "{{template_dir}}/autounattend.xml",
+        "{{template_dir}}/{{user `os_psvarfile`}}",
+        "{{template_dir}}/../../scripts/01_init.ps1"
+       ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "windows-shell",
+      "inline": [
+        "ipconfig"
+      ]
+    },
+    {
+      "type": "powershell",
+      "scripts": [
+        "{{template_dir}}/../scripts/config2.ps1"
+      ]
+    },
+    {
+      "type": "windows-update",
+      "filters": [
+        "include:$true"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    }
+  ]
+}
