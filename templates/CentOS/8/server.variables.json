@@ -9,5 +9,6 @@
     "iso_checksum": "aaf9d4b3071c16dbbda01dfe06085e5d0fdac76df323e3bbe87cce4318052247",
     "iso_target_name": "Centos8",
     "ssh_username": "root",
-    "ssh_password": "packer"
+    "ssh_password": "packer",
+    "os_type": "linux"
 }

@@ -48,18 +48,18 @@ function publish-template {
         [Parameter(mandatory = $true)]$Template_var_file,
         [Parameter(mandatory = $true)]$Builder_var_file,
         [Parameter(mandatory = $true)]$path_packer,
-        [Parameter(mandatory = $true)]$template_path,
+        [Parameter(mandatory = $false)]$template_path,
         [string]$autounattend_file,
         [pscredential]$credential,
         [string]$local_admin_pass
     )
     $packervars = Get-Content -Path $Template_var_file | ConvertFrom-Json
-    $autounattend="$template_path\autounattend.xml"
-    #copy var file 
-    Copy-Item -Path $Template_var_file -Destination ($template_path+"/"+$packervars.os_psvarfile)
     if ($env:path -notlike "*$path_packer*") { $env:path += ";$path_packer" }
     if (!$credential) { $credential = get-credential }
     if ($packervars.os_type -eq "windows") { 
+        $autounattend="$template_path\autounattend.xml"
+        #copy var file 
+        Copy-Item -Path $Template_var_file -Destination ($template_path+"/"+$packervars.os_psvarfile)
         # copy autounattend.xml
         copy-item -path $autounattend_file -Destination $autounattend
         # enter local asmin password for os
@@ -72,7 +72,7 @@ function publish-template {
         remove-item -path ($template_path+"/"+$packervars.os_psvarfile) 
         remove-item -path $autounattend
     }
-    if ($Template_os -eq "linux") {
+    if ($packervars.os_type -eq "linux") {
         packer build -force --var-file $builder_var_file --var-file $Template_var_file -var "vcenter_username=$($Credential.username)"  -var "vcenter_password=$($Credential.GetNetworkCredential().Password)" $Template_file   
     }
 }
